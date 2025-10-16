@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GJ Terminal - Government Jobs Dashboard</title>
+    <style>
+        /* (All previous body, header, and table container styles remain the same) */
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap');
+        body { font-family: 'Manrope', sans-serif; background-color: #0d0d0f; color: #e0e0e0; margin: 0; padding: 2rem 3rem; background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 20px 20px; }
+        .main-header { text-align: center; margin-bottom: 2rem; }
+        .main-header h1 { margin: 0; font-size: 2.5rem; font-weight: 700; letter-spacing: 1px; color: #ffffff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1); }
+        .table-container { overflow-x: auto; scroll-behavior: smooth; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; background: rgba(255, 255, 255, 0.03); padding: 8px; }
+        .table-container::-webkit-scrollbar { display: none; }
+        .table-container { -ms-overflow-style: none; scrollbar-width: none; }
+        .jobs-table { width: 100%; border-collapse: collapse; min-width: 1400px; }
+        .jobs-table thead { position: sticky; top: 0; z-index: 10; }
+        .jobs-table thead th { background: rgba(13, 13, 15, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+        .jobs-table th, .jobs-table td { padding: 14px 12px; white-space: nowrap; text-align: left; font-size: 0.9rem; }
+        .jobs-table tbody td { border-top: 1px solid rgba(255, 255, 255, 0.08); }
+        .jobs-table .external-link-icon { opacity: 0; transition: opacity 0.2s ease; margin-left: 8px; color: #aaa; }
+        .jobs-table tbody tr { transition: background-color 0.2s ease; }
+        .jobs-table tbody tr:hover { background-color: rgba(255, 255, 255, 0.05); cursor: pointer; }
+        .jobs-table tbody tr:hover .external-link-icon { opacity: 1; }
+
+        /* --- UPDATED CSS FOR SORTING --- */
+        .jobs-table th.sortable {
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .jobs-table th.sortable:hover {
+            color: #fff; /* Header text brightens on hover */
+        }
+        /* Add an indicator for sort direction */
+        .jobs-table th.sortable::after {
+            content: ' ';
+            display: inline-block;
+            margin-left: 8px;
+            opacity: 0.5;
+            transition: all 0.2s ease-in-out;
+        }
+        .jobs-table th.sort-asc::after {
+            content: '▲';
+            opacity: 1;
+        }
+        .jobs-table th.sort-desc::after {
+            content: '▼';
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <h1>GJ Terminal</h1>
+    </header>
+
+    <div class="table-container" id="tableContainer">
+        <table class="jobs-table" id="jobsTable">
+            <thead>
+                <tr>
+                    <th class="sortable" data-column-index="0">Post Name</th>
+                    <th class="sortable" data-column-index="1">Exam Name</th>
+                    <th class="sortable" data-column-index="2">Conducting Body</th>
+                    <th class="sortable" data-column-index="3">Group</th>
+                    <th class="sortable" data-column-index="4">Gazetted Status</th>
+                    <th class="sortable" data-column-index="5" data-sort-type="number">Pay Level</th>
+                    <th class="sortable" data-column-index="6" data-sort-type="currency">Salary (Approx.)</th>
+                    <th class="sortable" data-column-index="7">Eligibility</th>
+                    <th class="sortable" data-column-index="8" data-sort-type="number">Age Limit</th>
+                    <th class="sortable" data-column-index="9">PET Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr> <td>IAS Officer</td> <td>UPSC CSE<span class="external-link-icon">↗</span></td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹56,100+</td> <td>Any Graduation</td> <td>21-32</td> <td>No PET</td> </tr>
+                <tr> <td>IPS Officer</td> <td>UPSC CSE<span class="external-link-icon">↗</span></td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹56,100+</td> <td>Any Graduation</td> <td>21-32</td> <td>PET Required</td> </tr>
+                <tr> <td>IFS Officer</td> <td>UPSC CSE<span class="external-link-icon">↗</span></td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹60,000+</td> <td>Any Graduation</td> <td>21-32</td> <td>No PET</td> </tr>
+                <tr> <td>RBI Grade B</td> <td>RBI Grade B Exam<span class="external-link-icon">↗</span></td> <td>RBI</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹70,000+</td> <td>Graduation (50%+)</td> <td>21-30</td> <td>No PET</td> </tr>
+                <tr> <td>SBI PO</td> <td>SBI PO Exam<span class="external-link-icon">↗</span></td> <td>SBI</td> <td>A</td> <td>Gazetted</td> <td>7</td> <td>₹40,000+</td> <td>Any Graduation</td> <td>21-30</td> <td>No PET</td> </tr>
+                <tr> <td>IBPS PO</td> <td>IBPS PO Exam<span class="external-link-icon">↗</span></td> <td>IBPS</td> <td>A</td> <td>Gazetted</td> <td>7</td> <td>₹35,000+</td> <td>Any Graduation</td> <td>20-30</td> <td>No PET</td> </tr>
+                <tr> <td>SSC CGL (AAO)</td> <td>SSC CGL<span class="external-link-icon">↗</span></td> <td>SSC</td> <td>B</td> <td>Non-Gazetted</td> <td>8</td> <td>₹45,000+</td> <td>Any Graduation</td> <td>18-32</td> <td>No PET</td> </tr>
+                <tr> <td>NDA Officer</td> <td>NDA Exam<span class="external-link-icon">↗</span></td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹56,100+</td> <td>10+2 (PCM)</td> <td>16.5-19.5</td> <td>PET Required</td> </tr>
+                <tr> <td>ISRO Scientist</td> <td>ISRO ICRB<span class="external-link-icon">↗</span></td> <td>ISRO</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹60,000+</td> <td>B.Tech/B.E (60%+)</td> <td>21-35</td> <td>No PET</td> </tr>
+                <tr> <td>DRDO Scientist</td> <td>DRDO Entry Test<span class="external-link-icon">↗</span></td> <td>DRDO</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹60,000+</td> <td>B.Tech/B.E (First Class)</td> <td>21-28</td> <td>No PET</td> </tr>
+                <tr> <td>Railway Group A</td> <td>UPSC ESE<span class="external-link-icon">↗</span></td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹56,100+</td> <td>B.Tech/B.E</td> <td>21-30</td> <td>No PET</td> </tr>
+                <tr> <td>LIC AAO</td> <td>LIC AAO Exam<span class="external-link-icon">↗</span></td> <td>LIC</td> <td>B</td> <td>Non-Gazetted</td> <td>8</td> <td>₹40,000+</td> <td>Any Graduation</td> <td>21-30</td> <td>No PET</td> </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // --- SCRIPT FOR KEYBOARD NAVIGATION (unchanged) ---
+        // (This code remains the same)
+        document.addEventListener('keydown', function(event) {
+            const tableContainer = document.getElementById('tableContainer');
+            const horizontalScrollAmount = 250;
+            const verticalScrollAmount = 150;
+            switch (event.key) {
+                case 'ArrowLeft': event.preventDefault(); tableContainer.scrollBy({ left: -horizontalScrollAmount, behavior: 'smooth' }); break;
+                case 'ArrowRight': event.preventDefault(); tableContainer.scrollBy({ left: horizontalScrollAmount, behavior: 'smooth' }); break;
+                case 'ArrowUp': event.preventDefault(); window.scrollBy({ top: -verticalScrollAmount, behavior: 'smooth' }); break;
+                case 'ArrowDown': event.preventDefault(); window.scrollBy({ top: verticalScrollAmount, behavior: 'smooth' }); break;
+            }
+        });
+
+        // --- SCRIPT FOR ROW CLICK NAVIGATION (unchanged) ---
+        // (This code remains the same)
+        document.querySelectorAll('.jobs-table tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                window.location.href = 'details.html';
+            });
+        });
+
+        // --- NEW SCRIPT FOR TABLE SORTING ---
+        document.querySelectorAll('th.sortable').forEach(headerCell => {
+            headerCell.addEventListener('click', () => {
+                const tableElement = headerCell.closest('table');
+                const headerIndex = parseInt(headerCell.dataset.columnIndex);
+                const sortType = headerCell.dataset.sortType || 'alpha'; // Default to alphabetical sort
+                const currentIsAscending = headerCell.classList.contains('sort-asc');
+
+                sortTableByColumn(tableElement, headerIndex, !currentIsAscending, sortType);
+            });
+        });
+
+        function sortTableByColumn(table, columnIndex, ascending = true, sortType) {
+            const directionModifier = ascending ? 1 : -1;
+            const tBody = table.tBodies[0];
+            const rows = Array.from(tBody.querySelectorAll('tr'));
+
+            // Sort each row
+            const sortedRows = rows.sort((a, b) => {
+                const aColText = a.querySelector(`td:nth-child(${columnIndex + 1})`).textContent.trim();
+                const bColText = b.querySelector(`td:nth-child(${columnIndex + 1})`).textContent.trim();
+
+                // Handle different sort types
+                if (sortType === 'number' || sortType === 'currency') {
+                    // Extract numbers from strings (handles '₹', ',', '+', '-')
+                    const aValue = parseFloat(aColText.replace(/[₹,+-]/g, ''));
+                    const bValue = parseFloat(bColText.replace(/[₹,+-]/g, ''));
+                    return (aValue - bValue) * directionModifier;
+                } else {
+                    // Default alphabetical sort
+                    return aColText.localeCompare(bColText) * directionModifier;
+                }
+            });
+
+            // Remove all existing TRs from the table
+            while (tBody.firstChild) {
+                tBody.removeChild(tBody.firstChild);
+            }
+
+            // Re-add the newly sorted rows
+            tBody.append(...sortedRows);
+
+            // Update header classes for sort indicators
+            table.querySelectorAll('th.sortable').forEach(th => {
+                th.classList.remove('sort-asc', 'sort-desc');
+            });
+            table.querySelector(`th:nth-child(${columnIndex + 1})`).classList.toggle('sort-asc', ascending);
+            table.querySelector(`th:nth-child(${columnIndex + 1})`).classList.toggle('sort-desc', !ascending);
+        }
+    </script>
+</body>
+</html>
