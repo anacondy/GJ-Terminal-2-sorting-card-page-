@@ -43,6 +43,8 @@ This application implements multiple security best practices:
 4. **Safe DOM Manipulation**: Uses `textContent` instead of `innerHTML` to prevent XSS
 5. **No External Dependencies**: No third-party JavaScript libraries that could introduce vulnerabilities
 
+For detailed security information, see [SECURITY.md](SECURITY.md).
+
 ## 💻 Usage
 
 ### Running Locally
