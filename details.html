@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Details - GJ Terminal</title>
+    <style>
+        /* --- Import a modern font --- */
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap');
+
+        /* --- Global Styles & Dark Mode Background --- */
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #121212; /* A slightly different dark shade */
+            color: #e0e0e0;
+            margin: 0;
+            padding: 2rem 3rem;
+        }
+
+        /* --- Header for the details page --- */
+        .details-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1.5rem;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1.5rem;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none; /* For the <a> tag */
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .details-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        /* --- NEW: Grid container for the cards --- */
+        .cards-grid {
+            display: grid;
+            /* This creates 4 equal-width columns */
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem; /* The space between cards */
+        }
+
+        /* --- NEW: The MDN-style Card --- */
+        .info-card {
+            background-color: #1e1e1e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem; /* Space between elements inside the card */
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Category tag (e.g., "Syllabus") */
+        .card-category {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #aaa;
+        }
+
+        /* Card title */
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+        }
+
+        /* Card description text */
+        .card-description {
+            font-size: 0.95rem;
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Media query for responsiveness on smaller screens */
+        @media (max-width: 1200px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns */
+            }
+        }
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr; /* 1 column */
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="details-header">
+        <a href="index.html" class="back-btn" title="Back to Terminal">&larr;</a>
+        <h1>UPSC Civil Services Exam Details</h1>
+    </header>
+
+    <main class="cards-grid">
+        <div class="info-card">
+            <span class="card-category">Eligibility</span>
+            <h3 class="card-title">Core Eligibility Criteria</h3>
+            <p class="card-description">Candidates must be citizens of India, hold a degree from a recognized university, and be between 21-32 years of age, with relaxations for reserved categories.</p>
+        </div>
+        <div class="info-card">
+            <span class="card-category">Exam Pattern</span>
+            <h3 class="card-title">Three-Stage Process</h3>
+            <p class="card-description">The exam consists of three stages: Preliminary (2 objective papers), Mains (9 descriptive papers), followed by a final Personality Test (Interview).</p>
+        </div>
+        <div class="info-card">
+            <span class="card-category">Syllabus</span>
+            <h3 class="card-title">Preliminary Syllabus</h3>
+            <p class="card-description">Covers current events, history, geography, polity, economy, environment, and general science (GS Paper I), plus a qualifying aptitude test (CSAT).</p>
+        </div>
+        <div class="info-card">
+            <span class="card-category">Syllabus</span>
+            <h3 class="card-title">Mains Syllabus</h3>
+            <p class="card-description">Includes nine extensive papers covering Essay, Indian language, English, and four General Studies papers, plus two papers on an optional subject.</p>
+        </div>
+
+        <div class="info-card">
+            <span class="card-category">Physical Standards</span>
+            <h3 class="card-title">Physical Test (IPS/IRS)</h3>
+            <p class="card-description">Specific height, chest, and vision standards are mandatory for services like the Indian Police Service (IPS) and others requiring physical fitness.</p>
+        </div>
+        <div class="info-card">
+            <span class="card-category">Salary</span>
+            <h3 class="card-title">Pay Scale & Structure</h3>
+            <p class="card-description">Entry-level officers are placed in Pay Level 10 of the 7th CPC, with an approximate in-hand salary of ₹56,100 plus various allowances like DA, HRA, and TA.</p>
+        </div>
+        <div class="info-card">
+            <span class="card-category">Cut-off Marks</span>
+            <h3 class="card-title">Previous Year Trends</h3>
+            <p class="card-description">Cut-offs are determined based on the number of vacancies and the difficulty of the paper. Analyzing past trends is crucial for setting a target score.</p>
+        </div>
+        <div class="info-card">
+            <span class="card-category">Key Dates</span>
+            <h3 class="card-title">Important Schedule</h3>
+            <p class="card-description">The UPSC releases its annual calendar in advance. Typically, notification is in February, Prelims in June, and Mains around September.</p>
+        </div>
+    </main>
+
+    <script>
+        // --- SCRIPT FOR KEYBOARD SCROLLING ---
+        document.addEventListener('keydown', function(event) {
+            const verticalScrollAmount = 150; // Pixels to scroll up/down
+
+            switch (event.key) {
+                case 'ArrowUp':
+                    event.preventDefault();
+                    // Scroll the entire window up
+                    window.scrollBy({ top: -verticalScrollAmount, behavior: 'smooth' });
+                    break;
+                case 'ArrowDown':
+                    event.preventDefault();
+                    // Scroll the entire window down
+                    window.scrollBy({ top: verticalScrollAmount, behavior: 'smooth' });
+                    break;
+            }
+        });
+    </script>
+
+</body>
+</html>
