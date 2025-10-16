@@ -207,7 +207,7 @@
 
         // Add a listener to filter the table as the user types
         searchInput.addEventListener('input', () => {
-             // Sanitize input by creating a text node (prevents XSS)
+             // Sanitize input by trimming whitespace and limiting length
              const filterText = searchInput.value.trim().toUpperCase(); // Get search text, ignore case
              
              // Additional validation - limit input length

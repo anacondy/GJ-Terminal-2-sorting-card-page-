@@ -20,12 +20,14 @@ The application is deployed on GitHub Pages: [View Live Demo](https://anacondy.g
 
 ```
 ├── index.html              # Main dashboard with sorting functionality
-├── index3.html             # Complete version with search bar, sorting, and details
+├── index3.html             # ⭐ Complete version with search bar, sorting, and details (RECOMMENDED)
 ├── searchbar2index.html    # Dashboard with search bar overlay
 ├── details.html            # Detailed exam information page (card-based layout)
 ├── LICENSE                 # MIT License
 └── README.md              # This file
 ```
+
+**Recommended Entry Point**: Use `index3.html` for the full experience with all features (search, sort, and navigation).
 
 ## 🔒 Security Features
 
@@ -70,8 +72,13 @@ This application implements multiple security best practices:
 
 3. Open your browser and navigate to:
    ```
-   http://localhost:8000/index.html
+   http://localhost:8000/index3.html
    ```
+   
+   Or use any of the other pages:
+   - `http://localhost:8000/index.html` - Basic dashboard with sorting
+   - `http://localhost:8000/searchbar2index.html` - Dashboard with search
+   - `http://localhost:8000/details.html` - Details page
 
 ### Keyboard Shortcuts
 
