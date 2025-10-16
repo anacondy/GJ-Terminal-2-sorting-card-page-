@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:;">
     <title>GJ Terminal - Government Jobs Dashboard</title>
     <style>
         /* --- Comments are added throughout the code for clarity --- */
@@ -202,7 +207,14 @@
 
         // Add a listener to filter the table as the user types
         searchInput.addEventListener('input', () => {
-             const filterText = searchInput.value.toUpperCase(); // Get search text, ignore case
+             // Sanitize input by creating a text node (prevents XSS)
+             const filterText = searchInput.value.trim().toUpperCase(); // Get search text, ignore case
+             
+             // Additional validation - limit input length
+             if (filterText.length > 100) {
+                 searchInput.value = searchInput.value.substring(0, 100);
+                 return;
+             }
 
              // Loop through all the rows in the table body
              for (let i = 0; i < tableRows.length; i++) {
