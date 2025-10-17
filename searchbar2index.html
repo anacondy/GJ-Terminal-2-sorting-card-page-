@@ -162,70 +162,116 @@
     </div>
 
     <script>
-        // --- SCRIPT FOR KEYBOARD NAVIGATION (unchanged) ---
-        // (This code remains the same)
-        // ...
-
-        // --- SCRIPT FOR ROW CLICK NAVIGATION (unchanged) ---
-        // (This code remains the same)
-        // ...
-
-        // --- SCRIPT FOR TABLE SORTING (unchanged) ---
-        // (This code remains the same)
-        // ...
-
-        // --- NEW SCRIPT FOR SEARCH BAR FUNCTIONALITY ---
-
-        // Get the necessary elements from the HTML
+        // Get elements needed for multiple functions
+        const tableContainer = document.getElementById('tableContainer');
         const searchOverlay = document.getElementById('searchOverlay');
         const searchInput = document.getElementById('searchInput');
-        const table = document.getElementById('jobsTable');
-        const tableRows = table.tBodies[0].getElementsByTagName('tr');
+        const jobsTable = document.getElementById('jobsTable');
 
-        // Main event listener to catch keyboard shortcuts
+        // --- 1. KEYBOARD NAVIGATION & SHORTCUTS ---
         document.addEventListener('keydown', (event) => {
-            // Check if the user pressed Ctrl + K
-            if (event.ctrlKey && (event.key === 'k' || event.key === 'K')) {
-                event.preventDefault(); // Stop the browser's default action (e.g., opening its own search)
-                searchOverlay.classList.add('visible'); // Show the search overlay
-                searchInput.focus(); // Immediately focus the input field so the user can start typing
+            const horizontalScrollAmount = 250;
+            const verticalScrollAmount = 150;
+
+            // Arrow key navigation for the table (only when search is not visible)
+            if (!searchOverlay.classList.contains('visible')) {
+                switch (event.key) {
+                    case 'ArrowLeft': event.preventDefault(); tableContainer.scrollBy({ left: -horizontalScrollAmount, behavior: 'smooth' }); break;
+                    case 'ArrowRight': event.preventDefault(); tableContainer.scrollBy({ left: horizontalScrollAmount, behavior: 'smooth' }); break;
+                    case 'ArrowUp': event.preventDefault(); window.scrollBy({ top: -verticalScrollAmount, behavior: 'smooth' }); break;
+                    case 'ArrowDown': event.preventDefault(); window.scrollBy({ top: verticalScrollAmount, behavior: 'smooth' }); break;
+                }
             }
 
-            // Check if the user pressed the Escape key
+            // Ctrl+K to open search
+            if (event.ctrlKey && (event.key === 'k' || event.key === 'K')) {
+                event.preventDefault();
+                searchOverlay.classList.add('visible');
+                searchInput.focus(); // Auto-focus the input
+            }
+
+            // Escape key to close search
             if (event.key === 'Escape') {
-                searchOverlay.classList.remove('visible'); // Hide the search overlay
+                if (searchOverlay.classList.contains('visible')) {
+                    searchOverlay.classList.remove('visible');
+                }
             }
         });
 
-        // Add a listener to close the search if the user clicks the dark background
+        // --- 2. ROW CLICK TO DETAILS PAGE ---
+        jobsTable.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                window.location.href = 'details.html';
+            });
+        });
+
+        // --- 3. TABLE HEADER SORTING ---
+        jobsTable.querySelectorAll('th.sortable').forEach(headerCell => {
+            headerCell.addEventListener('click', () => {
+                const headerIndex = parseInt(headerCell.dataset.columnIndex);
+                const sortType = headerCell.dataset.sortType || 'alpha';
+                const currentIsAscending = headerCell.classList.contains('sort-asc');
+                sortTableByColumn(jobsTable, headerIndex, !currentIsAscending, sortType);
+            });
+        });
+
+        function sortTableByColumn(table, columnIndex, ascending = true, sortType) {
+            const directionModifier = ascending ? 1 : -1;
+            const tBody = table.tBodies[0];
+            const rows = Array.from(tBody.querySelectorAll('tr'));
+            const sortedRows = rows.sort((a, b) => {
+                const aColText = a.querySelector(`td:nth-child(${columnIndex + 1})`).textContent.trim();
+                const bColText = b.querySelector(`td:nth-child(${columnIndex + 1})`).textContent.trim();
+                if (sortType === 'number' || sortType === 'currency') {
+                    const aValue = parseFloat(aColText.replace(/[₹,+-]/g, ''));
+                    const bValue = parseFloat(bColText.replace(/[₹,+-]/g, ''));
+                    return (aValue - bValue) * directionModifier;
+                } else {
+                    return aColText.localeCompare(bColText) * directionModifier;
+                }
+            });
+            while (tBody.firstChild) { tBody.removeChild(tBody.firstChild); }
+            tBody.append(...sortedRows);
+            table.querySelectorAll('th.sortable').forEach(th => { th.classList.remove('sort-asc', 'sort-desc'); });
+            table.querySelector(`th:nth-child(${columnIndex + 1})`).classList.toggle('sort-asc', ascending);
+            table.querySelector(`th:nth-child(${columnIndex + 1})`).classList.toggle('sort-desc', !ascending);
+        }
+
+        // --- 4. SEARCH BAR FUNCTIONALITY ---
+
+        // Enter key to close search bar
+        searchInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                searchOverlay.classList.remove('visible');
+            }
+        });
+
+        // Close search by clicking the background
         searchOverlay.addEventListener('click', (event) => {
-            // We only close it if the click was on the overlay itself, not the input field
             if (event.target === searchOverlay) {
                 searchOverlay.classList.remove('visible');
             }
         });
 
-        // Add a listener to filter the table as the user types
+        // Live filtering as the user types
         searchInput.addEventListener('input', () => {
              // Sanitize input by trimming whitespace and limiting length
-             const filterText = searchInput.value.trim().toUpperCase(); // Get search text, ignore case
+             const filterText = searchInput.value.trim().toUpperCase();
              
              // Additional validation - limit input length
              if (filterText.length > 100) {
                  searchInput.value = searchInput.value.substring(0, 100);
                  return;
              }
-
-             // Loop through all the rows in the table body
+             
+             const tableRows = jobsTable.tBodies[0].getElementsByTagName('tr');
              for (let i = 0; i < tableRows.length; i++) {
                  const row = tableRows[i];
-                 const rowText = row.textContent || row.innerText; // Get all text content from the row
-
-                 // Check if the row's text includes the filter text
+                 const rowText = row.textContent || row.innerText;
                  if (rowText.toUpperCase().indexOf(filterText) > -1) {
-                     row.style.display = ""; // If it matches, show the row
+                     row.style.display = "";
                  } else {
-                     row.style.display = "none"; // If it doesn't match, hide the row
+                     row.style.display = "none";
                  }
              }
         });
