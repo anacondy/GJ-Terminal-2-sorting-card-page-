@@ -16,6 +16,24 @@ A modern, secure, and interactive web application for browsing and searching gov
 
 The application is deployed on GitHub Pages: [View Live Demo](https://anacondy.github.io/GJ-Terminal-2-sorting-card-page-/)
 
+## 📸 Screenshots
+
+### Main Dashboard
+![GJ Terminal Dashboard](https://github.com/user-attachments/assets/d7768116-448f-4442-b319-ea6db1fce34e)
+*Interactive table with sortable columns and government job listings*
+
+### Search Functionality (Ctrl+K)
+![Search Overlay](https://github.com/user-attachments/assets/18f693db-043b-4c14-bb23-ff7ef6571c46)
+*Press Ctrl+K to open the search overlay with golden glow effect*
+
+### Real-time Filtering
+![Filtered Results](https://github.com/user-attachments/assets/709a6be4-c906-4861-83a0-fcf5990c26ff)
+*Live filtering as you type in the search bar*
+
+### Exam Details Page
+![Details Page](https://github.com/user-attachments/assets/86b0924e-b536-4048-bd30-dd4c53c342b6)
+*Comprehensive exam information displayed in an organized card layout*
+
 ## 📁 File Structure
 
 ```
