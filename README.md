@@ -30,6 +30,10 @@ The application is deployed on GitHub Pages: [View Live Demo](https://anacondy.g
 ![Filtered Results](https://github.com/user-attachments/assets/709a6be4-c906-4861-83a0-fcf5990c26ff)
 *Live filtering as you type in the search bar*
 
+### Exam Details Page
+![Details Page](https://github.com/user-attachments/assets/86b0924e-b536-4048-bd30-dd4c53c342b6)
+*Comprehensive exam information displayed in an organized card layout*
+
 ## 📁 File Structure
 
 ```
