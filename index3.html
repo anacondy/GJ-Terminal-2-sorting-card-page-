@@ -1,10 +1,13 @@
-// this adds the search bar , details page , sorting features , all in one , 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:;">
     <title>GJ Terminal - Government Jobs Dashboard</title>
     <style>
         /* --- Import a modern font --- */
@@ -212,7 +215,15 @@
 
         // Live filtering as the user types
         searchInput.addEventListener('input', () => {
-             const filterText = searchInput.value.toUpperCase();
+             // Sanitize input by trimming whitespace and limiting length
+             const filterText = searchInput.value.trim().toUpperCase();
+             
+             // Additional validation - limit input length
+             if (filterText.length > 100) {
+                 searchInput.value = searchInput.value.substring(0, 100);
+                 return;
+             }
+             
              const tableRows = jobsTable.tBodies[0].getElementsByTagName('tr');
              for (let i = 0; i < tableRows.length; i++) {
                  const row = tableRows[i];
