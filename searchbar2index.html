@@ -7,117 +7,11 @@
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; img-src 'self' data:;">
     <title>GJ Terminal - Government Jobs Dashboard</title>
-    <style>
-        /* --- Comments are added throughout the code for clarity --- */
-
-        /* --- Import a modern font --- */
-        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap');
-
-        /* --- Global Styles & Dark Mode Background --- */
-        body {
-            font-family: 'Manrope', sans-serif;
-            background-color: #0d0d0f;
-            color: #e0e0e0;
-            margin: 0;
-            padding: 2rem 3rem;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-
-        /* --- Header for the "GJ Terminal" Title --- */
-        .main-header { text-align: center; margin-bottom: 2rem; }
-        .main-header h1 { margin: 0; font-size: 2.5rem; color: #ffffff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1); }
-
-        /* --- Table Container and Styles (Unchanged) --- */
-        .table-container { overflow-x: auto; scroll-behavior: smooth; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; background: rgba(255, 255, 255, 0.03); padding: 8px; }
-        .table-container::-webkit-scrollbar { display: none; }
-        .table-container { -ms-overflow-style: none; scrollbar-width: none; }
-        .jobs-table { width: 100%; border-collapse: collapse; min-width: 1400px; }
-        .jobs-table thead { position: sticky; top: 0; z-index: 10; }
-        .jobs-table thead th { background: rgba(13, 13, 15, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-        .jobs-table th, .jobs-table td { padding: 14px 12px; white-space: nowrap; text-align: left; font-size: 0.9rem; }
-        .jobs-table tbody td { border-top: 1px solid rgba(255, 255, 255, 0.08); }
-        .jobs-table tbody tr { transition: background-color 0.2s ease; }
-        .jobs-table tbody tr:hover { background-color: rgba(255, 255, 255, 0.05); cursor: pointer; }
-
-        /* --- Styles for Sortable Headers (Unchanged) --- */
-        .jobs-table th.sortable { cursor: pointer; transition: color 0.2s ease; }
-        .jobs-table th.sortable:hover { color: #fff; }
-        .jobs-table th.sortable::after { content: ' '; display: inline-block; margin-left: 8px; opacity: 0.5; transition: all 0.2s ease-in-out; }
-        .jobs-table th.sort-asc::after { content: '▲'; opacity: 1; }
-        .jobs-table th.sort-desc::after { content: '▼'; opacity: 1; }
-
-        /* --- NEW: Styles for the Search Bar Overlay --- */
-
-        /* The dark, blurred background that covers the page */
-        .search-overlay {
-            position: fixed; /* Sits on top of all other content */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Aligns the search bar towards the top */
-            padding-top: 15vh; /* 15% from the top of the viewport */
-            z-index: 2000; /* Ensures it's on top of everything */
-
-            /* Hidden by default, controlled by JS */
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        /* This class is added by JavaScript to show the overlay */
-        .search-overlay.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Smoothly scales the search modal into view */
-        .search-overlay.visible .search-modal {
-            transform: scale(1);
-        }
-
-        /* The container for the search input, for positioning */
-        .search-modal {
-            width: 100%;
-            max-width: 700px; /* This makes the search bar wide but not full-screen */
-            transform: scale(0.95); /* Starts slightly smaller for the animation */
-            transition: transform 0.3s ease;
-        }
-
-        /* The actual search input field */
-        #searchInput {
-            width: 100%;
-            padding: 18px 24px;
-            font-size: 1.2rem;
-            font-family: 'Manrope', sans-serif;
-            background-color: #1e1e1e;
-            color: #e0e0e0;
-            border: 1px solid #444;
-            border-radius: 10px;
-            outline: none; /* Removes the default browser outline */
-            box-sizing: border-box; /* Ensures padding is included in the width */
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        /* The warm, golden glow effect when the search bar is active */
-        #searchInput:focus {
-            border-color: #FFD700; /* Gold color for the border */
-            /* A multi-layered shadow creates a soft, realistic glow */
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4),
-                        0 0 10px rgba(255, 215, 0, 0.3);
-        }
-    </style>
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-
     <header class="main-header">
         <h1>GJ Terminal</h1>
     </header>
@@ -139,18 +33,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr> <td>IAS Officer</td> <td>UPSC CSE</td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹56,100+</td> <td>Any Graduation</td> <td>21-32</td> <td>No PET</td> </tr>
-                <tr> <td>IPS Officer</td> <td>UPSC CSE</td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹56,100+</td> <td>Any Graduation</td> <td>21-32</td> <td>PET Required</td> </tr>
-                <tr> <td>IFS Officer</td> <td>UPSC CSE</td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹60,000+</td> <td>Any Graduation</td> <td>21-32</td> <td>No PET</td> </tr>
-                <tr> <td>RBI Grade B</td> <td>RBI Grade B Exam</td> <td>RBI</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹70,000+</td> <td>Graduation (50%+)</td> <td>21-30</td> <td>No PET</td> </tr>
-                <tr> <td>SBI PO</td> <td>SBI PO Exam</td> <td>SBI</td> <td>A</td> <td>Gazetted</td> <td>7</td> <td>₹40,000+</td> <td>Any Graduation</td> <td>21-30</td> <td>No PET</td> </tr>
-                <tr> <td>IBPS PO</td> <td>IBPS PO Exam</td> <td>IBPS</td> <td>A</td> <td>Gazetted</td> <td>7</td> <td>₹35,000+</td> <td>Any Graduation</td> <td>20-30</td> <td>No PET</td> </tr>
-                <tr> <td>SSC CGL (AAO)</td> <td>SSC CGL</td> <td>SSC</td> <td>B</td> <td>Non-Gazetted</td> <td>8</td> <td>₹45,000+</td> <td>Any Graduation</td> <td>18-32</td> <td>No PET</td> </tr>
-                <tr> <td>NDA Officer</td> <td>NDA Exam</td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹56,100+</td> <td>10+2 (PCM)</td> <td>16.5-19.5</td> <td>PET Required</td> </tr>
-                <tr> <td>ISRO Scientist</td> <td>ISRO ICRB</td> <td>ISRO</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹60,000+</td> <td>B.Tech/B.E (60%+)</td> <td>21-35</td> <td>No PET</td> </tr>
-                <tr> <td>DRDO Scientist</td> <td>DRDO Entry Test</td> <td>DRDO</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹60,000+</td> <td>B.Tech/B.E (First Class)</td> <td>21-28</td> <td>No PET</td> </tr>
-                <tr> <td>Railway Group A</td> <td>UPSC ESE</td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹56,100+</td> <td>B.Tech/B.E</td> <td>21-30</td> <td>No PET</td> </tr>
-                <tr> <td>LIC AAO</td> <td>LIC AAO Exam</td> <td>LIC</td> <td>B</td> <td>Non-Gazetted</td> <td>8</td> <td>₹40,000+</td> <td>Any Graduation</td> <td>21-30</td> <td>No PET</td> </tr>
+                <tr> <td>IAS Officer</td> <td>UPSC CSE<a href="https://upsc.gov.in" target="_blank" rel="noopener noreferrer" class="external-link-icon">↗</a></td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹56,100+</td> <td>Any Graduation</td> <td>21-32</td> <td>No PET</td> </tr>
+                <tr> <td>IPS Officer</td> <td>UPSC CSE<a href="https://upsc.gov.in" target="_blank" rel="noopener noreferrer" class="external-link-icon">↗</a></td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹56,100+</td> <td>Any Graduation</td> <td>21-32</td> <td>PET Required</td> </tr>
+                <tr> <td>IFS Officer</td> <td>UPSC CSE<a href="https://upsc.gov.in" target="_blank" rel="noopener noreferrer" class="external-link-icon">↗</a></td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹60,000+</td> <td>Any Graduation</td> <td>21-32</td> <td>No PET</td> </tr>
+                <tr> <td>RBI Grade B</td> <td>RBI Grade B Exam<a href="https://www.rbi.org.in" target="_blank" rel="noopener noreferrer" class="external-link-icon">↗</a></td> <td>RBI</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹70,000+</td> <td>Graduation (50%+)</td> <td>21-30</td> <td>No PET</td> </tr>
+                <tr> <td>SBI PO</td> <td>SBI PO Exam<a href="https://sbi.co.in" target="_blank" rel="noopener noreferrer" class="external-link-icon">↗</a></td> <td>SBI</td> <td>A</td> <td>Gazetted</td> <td>7</td> <td>₹40,000+</td> <td>Any Graduation</td> <td>21-30</td> <td>No PET</td> </tr>
+                <tr> <td>IBPS PO</td> <td>IBPS PO Exam<a href="https://www.ibps.in" target="_blank" rel="noopener noreferrer" class="external-link-icon">↗</a></td> <td>IBPS</td> <td>A</td> <td>Gazetted</td> <td>7</td> <td>₹35,000+</td> <td>Any Graduation</td> <td>20-30</td> <td>No PET</td> </tr>
+                <tr> <td>SSC CGL (AAO)</td> <td>SSC CGL<a href="https://ssc.gov.in" target="_blank" rel="noopener noreferrer" class="external-link-icon">↗</a></td> <td>SSC</td> <td>B</td> <td>Non-Gazetted</td> <td>8</td> <td>₹45,000+</td> <td>Any Graduation</td> <td>18-32</td> <td>No PET</td> </tr>
+                <tr> <td>NDA Officer</td> <td>NDA Exam<a href="https://upsc.gov.in" target="_blank" rel="noopener noreferrer" class="external-link-icon">↗</a></td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹56,100+</td> <td>10+2 (PCM)</td> <td>16.5-19.5</td> <td>PET Required</td> </tr>
+                <tr> <td>ISRO Scientist</td> <td>ISRO ICRB<a href="https://www.isro.gov.in" target="_blank" rel="noopener noreferrer" class="external-link-icon">↗</a></td> <td>ISRO</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹60,000+</td> <td>B.Tech/B.E (60%+)</td> <td>21-35</td> <td>No PET</td> </tr>
+                <tr> <td>DRDO Scientist</td> <td>DRDO Entry Test<a href="https://www.drdo.gov.in" target="_blank" rel="noopener noreferrer" class="external-link-icon">↗</a></td> <td>DRDO</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹60,000+</td> <td>B.Tech/B.E (First Class)</td> <td>21-28</td> <td>No PET</td> </tr>
+                <tr> <td>Railway Group A</td> <td>UPSC ESE<a href="https://upsc.gov.in" target="_blank" rel="noopener noreferrer" class="external-link-icon">↗</a></td> <td>UPSC</td> <td>A</td> <td>Gazetted</td> <td>10</td> <td>₹56,100+</td> <td>B.Tech/B.E</td> <td>21-30</td> <td>No PET</td> </tr>
+                <tr> <td>LIC AAO</td> <td>LIC AAO Exam<a href="https://licindia.in" target="_blank" rel="noopener noreferrer" class="external-link-icon">↗</a></td> <td>LIC</td> <td>B</td> <td>Non-Gazetted</td> <td>8</td> <td>₹40,000+</td> <td>Any Graduation</td> <td>21-30</td> <td>No PET</td> </tr>
             </tbody>
         </table>
     </div>
@@ -161,120 +55,6 @@
         </div>
     </div>
 
-    <script>
-        // Get elements needed for multiple functions
-        const tableContainer = document.getElementById('tableContainer');
-        const searchOverlay = document.getElementById('searchOverlay');
-        const searchInput = document.getElementById('searchInput');
-        const jobsTable = document.getElementById('jobsTable');
-
-        // --- 1. KEYBOARD NAVIGATION & SHORTCUTS ---
-        document.addEventListener('keydown', (event) => {
-            const horizontalScrollAmount = 250;
-            const verticalScrollAmount = 150;
-
-            // Arrow key navigation for the table (only when search is not visible)
-            if (!searchOverlay.classList.contains('visible')) {
-                switch (event.key) {
-                    case 'ArrowLeft': event.preventDefault(); tableContainer.scrollBy({ left: -horizontalScrollAmount, behavior: 'smooth' }); break;
-                    case 'ArrowRight': event.preventDefault(); tableContainer.scrollBy({ left: horizontalScrollAmount, behavior: 'smooth' }); break;
-                    case 'ArrowUp': event.preventDefault(); window.scrollBy({ top: -verticalScrollAmount, behavior: 'smooth' }); break;
-                    case 'ArrowDown': event.preventDefault(); window.scrollBy({ top: verticalScrollAmount, behavior: 'smooth' }); break;
-                }
-            }
-
-            // Ctrl+K to open search
-            if (event.ctrlKey && (event.key === 'k' || event.key === 'K')) {
-                event.preventDefault();
-                searchOverlay.classList.add('visible');
-                searchInput.focus(); // Auto-focus the input
-            }
-
-            // Escape key to close search
-            if (event.key === 'Escape') {
-                if (searchOverlay.classList.contains('visible')) {
-                    searchOverlay.classList.remove('visible');
-                }
-            }
-        });
-
-        // --- 2. ROW CLICK TO DETAILS PAGE ---
-        jobsTable.querySelectorAll('tbody tr').forEach(row => {
-            row.addEventListener('click', () => {
-                window.location.href = 'details.html';
-            });
-        });
-
-        // --- 3. TABLE HEADER SORTING ---
-        jobsTable.querySelectorAll('th.sortable').forEach(headerCell => {
-            headerCell.addEventListener('click', () => {
-                const headerIndex = parseInt(headerCell.dataset.columnIndex);
-                const sortType = headerCell.dataset.sortType || 'alpha';
-                const currentIsAscending = headerCell.classList.contains('sort-asc');
-                sortTableByColumn(jobsTable, headerIndex, !currentIsAscending, sortType);
-            });
-        });
-
-        function sortTableByColumn(table, columnIndex, ascending = true, sortType) {
-            const directionModifier = ascending ? 1 : -1;
-            const tBody = table.tBodies[0];
-            const rows = Array.from(tBody.querySelectorAll('tr'));
-            const sortedRows = rows.sort((a, b) => {
-                const aColText = a.querySelector(`td:nth-child(${columnIndex + 1})`).textContent.trim();
-                const bColText = b.querySelector(`td:nth-child(${columnIndex + 1})`).textContent.trim();
-                if (sortType === 'number' || sortType === 'currency') {
-                    const aValue = parseFloat(aColText.replace(/[₹,+-]/g, ''));
-                    const bValue = parseFloat(bColText.replace(/[₹,+-]/g, ''));
-                    return (aValue - bValue) * directionModifier;
-                } else {
-                    return aColText.localeCompare(bColText) * directionModifier;
-                }
-            });
-            while (tBody.firstChild) { tBody.removeChild(tBody.firstChild); }
-            tBody.append(...sortedRows);
-            table.querySelectorAll('th.sortable').forEach(th => { th.classList.remove('sort-asc', 'sort-desc'); });
-            table.querySelector(`th:nth-child(${columnIndex + 1})`).classList.toggle('sort-asc', ascending);
-            table.querySelector(`th:nth-child(${columnIndex + 1})`).classList.toggle('sort-desc', !ascending);
-        }
-
-        // --- 4. SEARCH BAR FUNCTIONALITY ---
-
-        // Enter key to close search bar
-        searchInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                searchOverlay.classList.remove('visible');
-            }
-        });
-
-        // Close search by clicking the background
-        searchOverlay.addEventListener('click', (event) => {
-            if (event.target === searchOverlay) {
-                searchOverlay.classList.remove('visible');
-            }
-        });
-
-        // Live filtering as the user types
-        searchInput.addEventListener('input', () => {
-             // Sanitize input by trimming whitespace and limiting length
-             const filterText = searchInput.value.trim().toUpperCase();
-             
-             // Additional validation - limit input length
-             if (filterText.length > 100) {
-                 searchInput.value = searchInput.value.substring(0, 100);
-                 return;
-             }
-             
-             const tableRows = jobsTable.tBodies[0].getElementsByTagName('tr');
-             for (let i = 0; i < tableRows.length; i++) {
-                 const row = tableRows[i];
-                 const rowText = row.textContent || row.innerText;
-                 if (rowText.toUpperCase().indexOf(filterText) > -1) {
-                     row.style.display = "";
-                 } else {
-                     row.style.display = "none";
-                 }
-             }
-        });
-    </script>
+    <script src="js/dashboard.js"></script>
 </body>
 </html>

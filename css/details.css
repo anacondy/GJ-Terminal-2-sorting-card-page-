@@ -1,0 +1,109 @@
+/* --- Import a modern font --- */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap');
+
+/* --- Global Styles & Dark Mode Background --- */
+body {
+    font-family: 'Manrope', sans-serif;
+    background-color: #121212; /* Slightly different dark shade */
+    color: #e0e0e0;
+    margin: 0;
+    padding: 2rem 3rem;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* --- Header for the details page --- */
+.details-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1.5rem;
+}
+
+.back-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1.5rem;
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none; /* For the <a> tag */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.details-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #ffffff;
+}
+
+/* --- Grid container for the cards --- */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+/* --- The MDN-style Card --- */
+.info-card {
+    background-color: #1e1e1e;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 215, 0, 0.3); /* Match golden theme subtly */
+}
+
+/* Category tag (e.g., "Syllabus") */
+.card-category {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #FFD700; /* Use gold for categories to pop! */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Card title */
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+/* Card description text */
+.card-description {
+    font-size: 0.95rem;
+    color: #b0b0b0;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Media query for responsiveness on smaller screens */
+@media (max-width: 1200px) {
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 768px) {
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
