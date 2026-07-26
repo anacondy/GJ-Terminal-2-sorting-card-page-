@@ -72,8 +72,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (searchOverlay && searchInput && (event.ctrlKey || event.metaKey) && (event.key === 'k' || event.key === 'K')) {
             event.preventDefault();
             searchOverlay.classList.add('visible');
-            searchInput.focus();
-            renderDropdownSuggestions(searchInput.value.trim()); // Initialize options list
+            
+            // Aggressive autofocus with execution buffer to bypass CSS layout cycle delay
+            setTimeout(() => {
+                searchInput.focus();
+                searchInput.select();
+            }, 50);
+
+            // Instantly render all active jobs as quick-nav shortcuts
+            renderDropdownSuggestions('');
         }
 
         // Escape key to close search
@@ -216,12 +223,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const cleanQuery = query.trim().toUpperCase();
         
-        // Find matching job records
-        const matches = liveJobs.filter(job => 
-            job.name.toUpperCase().includes(cleanQuery) || 
-            job.exam.toUpperCase().includes(cleanQuery) || 
-            job.body.toUpperCase().includes(cleanQuery)
-        );
+        // Find matching job records or default to all if query is empty
+        const matches = cleanQuery === '' 
+            ? liveJobs 
+            : liveJobs.filter(job => 
+                job.name.toUpperCase().includes(cleanQuery) || 
+                job.exam.toUpperCase().includes(cleanQuery) || 
+                job.body.toUpperCase().includes(cleanQuery)
+            );
 
         if (matches.length === 0) {
             searchResults.innerHTML = '<div class="search-results-item"><span class="search-results-title">No matching jobs found</span><span class="search-results-meta">Try searching for other Central or Rajasthan live jobs</span></div>';
@@ -247,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 searchInput.value = '';
                 searchResults.style.display = "none";
                 
-                // If on details.html already, reload page with new parameter; else, navigate there.
+                // Navigate directly to details of the chosen job
                 window.location.href = `details.html?job=${encodeURIComponent(job.name)}`;
             });
 
