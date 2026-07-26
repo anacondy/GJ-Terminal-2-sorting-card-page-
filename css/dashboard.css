@@ -1,0 +1,314 @@
+/* --- Import a modern font --- */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap');
+
+/* --- Global Styles & Dark Mode Background --- */
+body {
+    font-family: 'Manrope', sans-serif;
+    background-color: #0d0d0f;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 2rem 3rem;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* --- Header for the "GJ Terminal" Title --- */
+.main-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.main-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* --- Table Container and Styles --- */
+.table-container {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 8px;
+    -webkit-overflow-scrolling: touch; /* Smooth kinetic scroll on iOS/Safari */
+}
+
+/* --- Custom Scrollbar Styling --- */
+.table-container::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+.table-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+}
+.table-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.2); /* Golden accent */
+    border-radius: 12px;
+    transition: background-color 0.2s ease;
+}
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 215, 0, 0.4);
+}
+
+.jobs-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1400px;
+}
+.jobs-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.jobs-table thead th {
+    background: rgba(13, 13, 15, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.jobs-table th, .jobs-table td {
+    padding: 14px 12px;
+    white-space: nowrap;
+    text-align: left;
+    font-size: 0.9rem;
+}
+.jobs-table tbody td {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.jobs-table tbody tr {
+    transition: background-color 0.2s ease;
+    will-change: background-color;
+}
+.jobs-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+}
+
+/* --- External Link Icon Styles --- */
+.jobs-table .external-link-icon {
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    margin-left: 8px;
+    color: #FFD700; /* Warm golden glow */
+    text-decoration: none;
+    font-size: 0.8rem;
+    display: inline-block;
+}
+.jobs-table tbody tr:hover .external-link-icon {
+    opacity: 1;
+}
+.jobs-table .external-link-icon:hover {
+    transform: scale(1.2);
+}
+
+/* --- Styles for Sortable Headers --- */
+.jobs-table th.sortable {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.jobs-table th.sortable:hover {
+    color: #fff;
+}
+.jobs-table th.sortable::after {
+    content: ' ';
+    display: inline-block;
+    margin-left: 8px;
+    opacity: 0.5;
+    transition: all 0.2s ease-in-out;
+}
+.jobs-table th.sort-asc::after {
+    content: '▲';
+    opacity: 1;
+}
+.jobs-table th.sort-desc::after {
+    content: '▼';
+    opacity: 1;
+}
+
+/* --- Styles for the Search Bar Overlay --- */
+.search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 15vh;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.25s ease;
+    will-change: opacity, visibility;
+}
+.search-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+.search-overlay.visible .search-modal {
+    transform: scale(1);
+}
+.search-modal {
+    width: 100%;
+    max-width: 700px;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+    transform: scale(0.95);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    display: flex;
+    flex-direction: column;
+}
+#searchInput {
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 1.2rem;
+    font-family: 'Manrope', sans-serif;
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    border-radius: 10px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+#searchInput:focus {
+    border-color: #FFD700;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.4), 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+/* --- Search Autocomplete Results Container --- */
+.search-results {
+    background-color: #1a1a1c;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 10px;
+    max-height: 350px;
+    overflow-y: auto;
+    margin-top: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: none; /* Controlled dynamically by JS */
+}
+
+/* --- Custom Styled Search Results Scrollbar (DRY & Sleek) --- */
+.search-results::-webkit-scrollbar {
+    width: 6px;
+}
+.search-results::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.01);
+    border-radius: 10px;
+}
+.search-results::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.2); /* Soft golden thumb */
+    border-radius: 10px;
+}
+.search-results::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 215, 0, 0.4);
+}
+
+.search-results-item {
+    padding: 14px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background-color 0.2s ease, color 0.2s ease;
+    color: #e0e0e0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.search-results-item:hover {
+    background-color: rgba(255, 215, 0, 0.08);
+}
+.search-results-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    transition: color 0.2s ease;
+}
+.search-results-item:hover .search-results-title {
+    color: #FFD700;
+}
+.search-results-meta {
+    font-size: 0.8rem;
+    color: #aaa;
+}
+.search-results-item:last-child {
+    border-bottom: none;
+}
+
+/* --- Key Dates Card Highlights --- */
+.date-highlight {
+    color: #FFD700;
+    font-weight: 700;
+}
+
+/* --- RESPONSIVE MEDIA OVERRIDES --- */
+
+/* Tablet & Smaller Screens */
+@media (max-width: 992px) {
+    body {
+        padding: 1.5rem 2rem;
+    }
+    .main-header h1 {
+        font-size: 2.2rem;
+    }
+}
+
+/* Smartphone Portrait & Landscape Viewports */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem 1rem;
+        background-size: 15px 15px;
+    }
+    .main-header {
+        margin-bottom: 1.5rem;
+    }
+    .main-header h1 {
+        font-size: 1.8rem;
+    }
+    .table-container {
+        border-radius: 8px;
+        padding: 4px;
+    }
+    .jobs-table th, .jobs-table td {
+        padding: 12px 10px;
+        font-size: 0.85rem;
+    }
+    .table-container::-webkit-scrollbar {
+        height: 6px;
+    }
+    .table-container {
+        box-shadow: inset -10px 0 10px -10px rgba(255, 215, 0, 0.15);
+    }
+    #searchInput {
+        padding: 14px 18px;
+        font-size: 1rem;
+    }
+}
+
+/* Extra Small Devices (320px to 480px width) */
+@media (max-width: 480px) {
+    body {
+        padding: 0.75rem 0.5rem;
+    }
+    .main-header h1 {
+        font-size: 1.6rem;
+    }
+}
+
+/* High Resolution & Zoom Adjustments */
+@media (min-width: 1920px) {
+    body {
+        max-width: 1600px;
+        margin: 0 auto;
+    }
+}

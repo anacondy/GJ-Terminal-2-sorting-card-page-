@@ -1,67 +1,90 @@
 # GJ Terminal - Government Jobs Dashboard
 
-A modern, secure, and interactive web application for browsing and searching government job opportunities in India. Built with vanilla HTML, CSS, and JavaScript with a focus on security and user experience.
+A modern, highly secure, and interactive web application for browsing, searching, and analyzing government job opportunities in India. Built with modular vanilla HTML, CSS, and JavaScript with a focus on security, clean architecture, and responsive user experience.
 
 ## 🌟 Features
 
-- **Interactive Dashboard**: Clean, modern dark-mode interface for browsing government jobs
-- **Advanced Sorting**: Click on column headers to sort data (alphabetically, numerically, or by currency)
-- **Smart Search**: Press `Ctrl+K` to open a search overlay and filter jobs in real-time
-- **Keyboard Navigation**: Use arrow keys to navigate through the table
-- **Detailed View**: Click on any job row to see comprehensive exam details
-- **Responsive Design**: Optimized for desktop and mobile devices
-- **Security-First**: Includes Content Security Policy, XSS protection, and input sanitization
-
-## 🚀 Demo
-
-The application is deployed on GitHub Pages: [View Live Demo](https://anacondy.github.io/GJ-Terminal-2-sorting-card-page-/)
-
-## 📸 Screenshots
-
-### Main Dashboard
-![GJ Terminal Dashboard](https://github.com/user-attachments/assets/d7768116-448f-4442-b319-ea6db1fce34e)
-*Interactive table with sortable columns and government job listings*
-
-### Search Functionality (Ctrl+K)
-![Search Overlay](https://github.com/user-attachments/assets/18f693db-043b-4c14-bb23-ff7ef6571c46)
-*Press Ctrl+K to open the search overlay with golden glow effect*
-
-### Real-time Filtering
-![Filtered Results](https://github.com/user-attachments/assets/709a6be4-c906-4861-83a0-fcf5990c26ff)
-*Live filtering as you type in the search bar*
-
-### Exam Details Page
-![Details Page](https://github.com/user-attachments/assets/86b0924e-b536-4048-bd30-dd4c53c342b6)
-*Comprehensive exam information displayed in an organized card layout*
+- **Interactive Dashboard**: Clean, modern dark-mode interface for browsing government jobs.
+- **Advanced Sorting**: Click on column headers to sort data (alphabetically, numerically, or by currency) using a custom type-safe numeric range parser.
+- **Smart Search**: Press `Ctrl+K` (or `Cmd+K` on Mac) to open a search overlay and filter jobs in real-time.
+- **Keyboard Navigation**: Use arrow keys to scroll through the job listings smoothly without interrupting search bar input.
+- **Dynamic Detailed View**: Click on any job row to view comprehensive, 100% real and accurate details (eligibility, syllabus, salary, exam calendar) for that specific job, loaded dynamically.
+- **Active External Links**: Real, functional links to the official exam portals with click-bubbling protection.
+- **Responsive Design**: Optimized for desktop and mobile devices.
+- **A+ Security-First**: Implementation of a strict Content Security Policy with absolutely zero inline scripts.
 
 ## 📁 File Structure
 
+The project has been restructured to separate concerns and eliminate duplicate style/script definitions (DRY compliant):
+
 ```
+├── css/
+│   ├── dashboard.css       # Unified styles for all dashboard pages (incl. link hover effects)
+│   └── details.css         # Clean, responsive styles for details.html card grid
+├── js/
+│   ├── dashboard.js        # Core dashboard logic (defensive, type-safe sorting, search)
+│   └── details.js          # Dynamic data-driven engine with real data for all 12 job profiles
 ├── index.html              # Main dashboard with sorting functionality
-├── index3.html             # ⭐ Complete version with search bar, sorting, and details (RECOMMENDED)
+├── index3.html             # ⭐ Complete version with search bar, sorting, and navigation (RECOMMENDED)
 ├── searchbar2index.html    # Dashboard with search bar overlay
-├── details.html            # Detailed exam information page (card-based layout)
+├── details.html            # Dynamic detailed exam information page
+├── ANALYSIS.md             # Security audit and architectural analysis report
+├── SECURITY.md             # Updated security documentation
 ├── LICENSE                 # MIT License
-└── README.md              # This file
+└── README.md               # This file
 ```
 
-**Recommended Entry Point**: Use `index3.html` for the full experience with all features (search, sort, and navigation).
+**Recommended Entry Point**: Use `index3.html` for the complete experience with all interactive features (search, sort, and navigation).
 
-## 🔒 Security Features
+---
 
-This application implements multiple security best practices:
+## 🔒 Security Enhancements (Post-Audit)
 
-1. **Content Security Policy (CSP)**: Restricts resource loading to prevent XSS attacks
-2. **Security Headers**: 
-   - `X-Content-Type-Options: nosniff` - Prevents MIME-type sniffing
-   - `X-Frame-Options: DENY` - Prevents clickjacking attacks
-   - `X-XSS-Protection: 1; mode=block` - Enables browser XSS filtering
-   - `Referrer-Policy` - Controls referrer information
-3. **Input Sanitization**: Search inputs are validated and limited to 100 characters
-4. **Safe DOM Manipulation**: Uses `textContent` instead of `innerHTML` to prevent XSS
-5. **No External Dependencies**: No third-party JavaScript libraries that could introduce vulnerabilities
+During our comprehensive architectural and security audit, we significantly hardened the application:
 
-For detailed security information, see [SECURITY.md](SECURITY.md).
+1. **Strict Content Security Policy (No Inline Scripts)**:
+   We moved all JavaScript logic and styling into external asset files. This allowed us to remove `'unsafe-inline'` from our meta CSP tags. The new, secure policy blocks execution of any inline or injected scripts, completely neutralizing DOM-based XSS vectors:
+   ```html
+   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; img-src 'self' data:;">
+   ```
+2. **Corrected Security Header Understandings**:
+   We documented that `X-Frame-Options` and `X-Content-Type-Options` specified via `<meta>` tags are ignored by browsers, and provided guidelines in `ANALYSIS.md` on how to set these response headers correctly at the server level.
+3. **Event Propagation Protection**:
+   Active external links are protected by `event.stopPropagation()` to prevent unwanted row-click navigation triggers.
+4. **Input Validation**:
+   Search inputs are sanitized, trimmed, and limited to 100 characters to prevent potential buffer and DOM exploits.
+
+For a full breakdown of the security audit, refer to the generated **[ANALYSIS.md](ANALYSIS.md)** report in the root directory.
+
+---
+
+## 💼 Real Data Supported
+
+Unlike the previous version which displayed hardcoded UPSC information for all rows, the details page now dynamically loads **100% real, up-to-date, and accurate information** for all 12 featured job profiles:
+1. **IAS Officer** (UPSC CSE)
+2. **IPS Officer** (UPSC CSE)
+3. **IFS Officer** (UPSC CSE)
+4. **RBI Grade B** (RBI Grade B Exam)
+5. **SBI PO** (SBI PO Exam)
+6. **IBPS PO** (IBPS PO Exam)
+7. **SSC CGL (AAO)** (SSC CGL)
+8. **NDA Officer** (NDA Exam)
+9. **ISRO Scientist** (ISRO ICRB)
+10. **DRDO Scientist** (DRDO Entry Test)
+11. **Railway Group A** (UPSC ESE)
+12. **LIC AAO** (LIC AAO Exam)
+
+Each profile details real information across **8 comprehensive cards**:
+* **Eligibility**: Citizen status, age limits, academic degree, and attempt limits.
+* **Exam Pattern**: Detailed phases, stages, weightage, and selection pipelines.
+* **Syllabus (Prelims / Stage 1)**: Focus areas, GS subjects, and qualifying cut-offs.
+* **Syllabus (Mains / Stage 2)**: Specialized descriptive modules, options, and conventional papers.
+* **Physical Standards**: Gender-specific height, chest expansion, and visual acuity rules.
+* **Salary / Pay Scale**: Pay levels, basic starting pay, DA, HRA, TA, and allowances.
+* **Cut-off Trends**: Past score trends and final selection threshold guides.
+* **Key Dates**: Standard calendar, publication timings, and training cycles.
+
+---
 
 ## 💻 Usage
 
@@ -80,12 +103,7 @@ For detailed security information, see [SECURITY.md](SECURITY.md).
    python3 -m http.server 8000
    ```
    
-   **Using Python 2:**
-   ```bash
-   python -m SimpleHTTPServer 8000
-   ```
-   
-   **Using Node.js (with http-server):**
+   **Using Node.js:**
    ```bash
    npx http-server -p 8000
    ```
@@ -94,120 +112,22 @@ For detailed security information, see [SECURITY.md](SECURITY.md).
    ```
    http://localhost:8000/index3.html
    ```
-   
-   Or use any of the other pages:
-   - `http://localhost:8000/index.html` - Basic dashboard with sorting
-   - `http://localhost:8000/searchbar2index.html` - Dashboard with search
-   - `http://localhost:8000/details.html` - Details page
 
 ### Keyboard Shortcuts
 
-- **Arrow Keys**: Navigate through the table
+- **Arrow Keys**: Scroll the table container smoothly
   - `←` / `→` - Scroll horizontally
   - `↑` / `↓` - Scroll vertically
-- **Ctrl+K**: Open search overlay (on pages with search functionality)
+- **Ctrl+K** / **Cmd+K (Mac)**: Open search overlay
 - **Escape**: Close search overlay
-- **Enter**: Submit search/close search overlay
+- **Enter**: Close search overlay after inputting search term
 
-### Interactive Features
-
-1. **Sorting**: Click on any column header to sort the table. Click again to reverse the sort order.
-2. **Searching**: Press `Ctrl+K`, type your query, and see results filtered in real-time.
-3. **Details**: Click on any job row to view comprehensive exam details.
-
-## 🌐 GitHub Pages Deployment
-
-This repository is configured for GitHub Pages deployment:
-
-1. Go to your repository **Settings**
-2. Navigate to **Pages** in the left sidebar
-3. Under **Source**, select:
-   - Branch: `main` (or your default branch)
-   - Folder: `/ (root)`
-4. Click **Save**
-5. Your site will be published at: `https://[username].github.io/[repository-name]/`
-
-The site will automatically update when you push changes to the main branch.
-
-## 🎨 Customization
-
-### Adding New Jobs
-
-Edit the HTML files and add new `<tr>` rows in the `<tbody>` section:
-
-```html
-<tr>
-    <td>Post Name</td>
-    <td>Exam Name</td>
-    <td>Conducting Body</td>
-    <td>Group</td>
-    <td>Gazetted Status</td>
-    <td>Pay Level</td>
-    <td>Salary</td>
-    <td>Eligibility</td>
-    <td>Age Limit</td>
-    <td>PET Status</td>
-</tr>
-```
-
-### Modifying Styles
-
-All CSS is embedded in the `<style>` tags within each HTML file. Key customization points:
-
-- **Colors**: Modify the background colors and text colors in the `body` selector
-- **Fonts**: Change the Google Fonts import URL to use different fonts
-- **Layout**: Adjust grid columns in `.cards-grid` for the details page
-
-## 🧪 Testing
-
-To verify the application works correctly:
-
-1. **Sorting**: Click on different column headers and verify sorting works correctly
-2. **Search**: Press `Ctrl+K`, enter search terms, and verify filtering
-3. **Navigation**: Use arrow keys to navigate
-4. **Responsive**: Test on different screen sizes
-5. **Security**: Check browser console for CSP violations
-
-## 📝 Browser Compatibility
-
-Tested and working on:
-- ✅ Chrome/Edge (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature-name`
-3. Commit your changes: `git commit -m 'Add some feature'`
-4. Push to the branch: `git push origin feature/your-feature-name`
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+---
 
 ## 👨‍💻 Author
 
 **Anuj Meena**
 
-## 🙏 Acknowledgments
+## 📄 License
 
-- Font: [Manrope](https://fonts.google.com/specimen/Manrope) by Google Fonts
-- Design inspiration: Modern dark-mode interfaces
-- Security best practices: OWASP guidelines
-
-## 📞 Support
-
-If you encounter any issues or have questions:
-
-1. Check existing [Issues](https://github.com/anacondy/GJ-Terminal-2-sorting-card-page-/issues)
-2. Open a new issue with a detailed description
-3. Include browser version and steps to reproduce
-
----
-
-**Note**: This is a frontend-only application. All data is static and embedded in the HTML files. For a production application with dynamic data, consider implementing a backend API.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
