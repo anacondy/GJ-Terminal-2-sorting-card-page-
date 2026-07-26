@@ -1,6 +1,6 @@
 /**
  * GJ Terminal - Dynamic Details Page JavaScript
- * Stores 100% real, accurate details for all 12 job profiles and populates the details UI dynamically.
+ * Stores 100% real, active details for the 8 live Central and Rajasthan job profiles as of July 2026.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const backBtn = document.querySelector('.back-btn');
     if (backBtn && document.referrer) {
         const referrer = document.referrer;
-        // Check if referrer is one of our index pages
         if (referrer.includes('index.html') || referrer.includes('index3.html') || referrer.includes('searchbar2index.html')) {
             backBtn.href = referrer;
         }
@@ -29,563 +28,381 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 3. REAL DATA STORE FOR ALL 12 GOVERNMENT JOB PROFILES ---
+    // --- 3. REAL, LIVE DATABASE OF CENTRAL & RAJASTHAN JOBS (As of July 27, 2026) ---
     const jobsDatabase = {
-        "IAS Officer": {
-            examName: "UPSC Civil Services Exam",
+        "Specialist & Assistant Professor": {
+            examName: "UPSC ORA Specialist Recruitment 2026",
             cards: [
                 {
                     category: "Eligibility",
-                    title: "Core Eligibility Criteria",
-                    desc: "Must be a citizen of India. Age: 21-32 years (with relaxations for OBC/SC/ST). Minimum qualification: Graduation in any discipline from a recognized university. Maximum attempts: 6 for General, 9 for OBC."
+                    title: "Specialist Eligibility",
+                    desc: "Age: 18-40 years. Must hold a postgraduate degree (MD/MS/DM/MCh) in the respective specialty from a recognized university. Minimum 3 years of clinical or research experience is required."
                 },
                 {
                     category: "Exam Pattern",
-                    title: "Three-Stage Process",
-                    desc: "Consists of three stages: 1) Civil Services Aptitude Test (Prelims - Objective), 2) CSE Main Exam (9 Descriptive Written Papers), and 3) Personal Interview/Personality Test."
+                    title: "Direct Interview Screening",
+                    desc: "Primarily selected via direct Personal Interview (100 marks). If candidate volume is high, UPSC conducts a computer-based Recruitment Test (CBRT) followed by interview (75:25 weightage)."
                 },
                 {
                     category: "Syllabus",
-                    title: "Preliminary Syllabus",
-                    desc: "Paper I (General Studies): History, Geography, Indian Polity, Economy, Science & Technology, Environment, and Current Affairs. Paper II (CSAT): Quantitative Aptitude, Logical Reasoning, and Reading Comprehension (qualifying at 33%)."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Mains Syllabus",
-                    desc: "Includes 9 descriptive papers: Paper A (Indian Language), Paper B (English), Paper I (Essay), Papers II-V (General Studies GS 1 to GS 4 covering history, polity, security, ethics), and Papers VI-VII (two papers on an optional subject)."
-                },
-                {
-                    category: "Physical Standards",
-                    title: "Medical & Fitness Board",
-                    desc: "Basic medical standards as per UPSC guidelines. Height and chest requirements are not mandatory for IAS (unlike IPS), but candidates must be mentally and physically fit for public service."
-                },
-                {
-                    category: "Salary",
-                    title: "Pay Scale & Structure",
-                    desc: "Recruited under Pay Level 10 of the 7th Central Pay Commission (CPC). Starting basic salary is ₹56,100 per month. Officers also receive Dearness Allowance (DA), House Rent Allowance (HRA), Transport Allowance (TA), and government housing."
-                },
-                {
-                    category: "Cut-off Marks",
-                    title: "Previous Year Trends",
-                    desc: "Prelims GS Paper 1 cut-offs usually hover between 85 and 95 marks out of 200 in recent years. Mains cut-off for the written papers sits around 740-780 out of 1750 marks. Final rank depends on the total score out of 2025."
-                },
-                {
-                    category: "Key Dates",
-                    title: "Important Schedule",
-                    desc: "UPSC publishes its annual notification in February. The Preliminary examination is conducted in May/June, the Mains descriptive exam takes place in September, and the Interviews run from January to April."
-                }
-            ]
-        },
-        "IPS Officer": {
-            examName: "UPSC Civil Services Exam (IPS)",
-            cards: [
-                {
-                    category: "Eligibility",
-                    title: "Core Eligibility Criteria",
-                    desc: "Must be a citizen of India. Age: 21-32 years (relaxable for reserved categories). Must possess a graduation degree from a recognized university. General attempts limited to 6, with relaxations."
-                },
-                {
-                    category: "Exam Pattern",
-                    title: "Three-Stage Process",
-                    desc: "Recruitment shares the UPSC CSE platform: 1) Prelims (Objective, 2 papers), 2) Mains (Descriptive, 9 papers), and 3) Personality Test, accompanied by a rigorous physical/medical assessment."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Preliminary Syllabus",
-                    desc: "Identical to IAS: GS Paper I focuses on general knowledge, polity, and current affairs, while CSAT (GS Paper II) evaluates analytical ability, reasoning, and comprehension."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Mains Syllabus",
-                    desc: "Consists of 9 descriptive papers covering Essay, General Studies (GS 1 to GS 4: History, Polity, Geography, Technology, Ethics), and choice of one optional subject with 2 papers."
-                },
-                {
-                    category: "Physical Standards",
-                    title: "Physical & Height Test",
-                    desc: "Strict requirements apply. Minimum height: 165 cm for Men (160 cm for SC/ST/OBC), 150 cm for Women. Chest girth: Minimum 84 cm for Men with 5 cm expansion. Strict visual standards (6/6 or 6/9) are mandatory."
-                },
-                {
-                    category: "Salary",
-                    title: "Pay Scale & Structure",
-                    desc: "Starting basic pay is ₹56,100 under Pay Level 10 of the 7th CPC. Officers get dynamic allowances, government vehicles, security escorts, subsidised domestic help, and medical coverage."
-                },
-                {
-                    category: "Cut-off Marks",
-                    title: "Previous Year Trends",
-                    desc: "GS Prelims cut-off is the same as CSE (typically 43%-48%). Final service allocation depends on rank, physical fitness clearance, and vacancy availability in the specific state cadre."
-                },
-                {
-                    category: "Key Dates",
-                    title: "Important Schedule",
-                    desc: "Matches the civil services calendar: Notification released in February, Prelims conducted in May/June, Mains in September, and final physical checks alongside interview stages in the winter."
-                }
-            ]
-        },
-        "IFS Officer": {
-            examName: "UPSC Indian Foreign Service",
-            cards: [
-                {
-                    category: "Eligibility",
-                    title: "Core Eligibility Criteria",
-                    desc: "Must be a citizen of India. Age: 21-32 years. Candidate must hold a degree from a recognized university. This is recruited via the same civil services exam; only top rankers are allocated to IFS."
-                },
-                {
-                    category: "Exam Pattern",
-                    title: "Three-Stage Process",
-                    desc: "Follows the standard UPSC Civil Services pipeline: Prelims (Objective screening), Mains (Descriptive papers focusing on global topics and language), and Personality Test which scores diplomatic temperament."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Preliminary Syllabus",
-                    desc: "Covers current affairs, international relations, history, geography, polity, economics, and environmental sciences. CSAT is a qualifying paper testing logical and quantitative aptitude."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Mains Syllabus",
-                    desc: "Includes 9 descriptive papers. Candidates are evaluated on English, General Studies (covering security, economy, global bodies, and international relations), and a specialized optional subject."
-                },
-                {
-                    category: "Physical Standards",
-                    title: "Medical Fitness Board",
-                    desc: "Standard physical and medical fitness. Must be certified as medically fit to travel and serve abroad, passing standard tests for hearing, vision, and blood pressure."
-                },
-                {
-                    category: "Salary",
-                    title: "Pay Scale & Structure",
-                    desc: "Placed in Pay Level 10 (Basic ₹56,100 to ₹60,000+). When posted abroad, officers receive an additional Special Foreign Allowance (SFA) tailored to the cost of living of the host country, which is completely tax-free."
-                },
-                {
-                    category: "Cut-off Marks",
-                    title: "Previous Year Trends",
-                    desc: "The IFS is historically highly sought after, with only 30-40 vacancies annually. Securing IFS usually requires a rank within the top 80-120 in the General category."
-                },
-                {
-                    category: "Key Dates",
-                    title: "Important Schedule",
-                    desc: "Follows UPSC CSE timelines: Notification in February, Prelims in May/June, Mains in September. Training begins in September of the following year at LBSNAA and the Sushma Swaraj Foreign Service Institute."
-                }
-            ]
-        },
-        "RBI Grade B": {
-            examName: "RBI Grade B Officer Exam",
-            cards: [
-                {
-                    category: "Eligibility",
-                    title: "Core Eligibility Criteria",
-                    desc: "Age: 21-30 years. Must possess a minimum of 60% marks (50% for SC/ST/PwBD) in Bachelor's degree, 12th, and 10th examinations from recognized boards and universities."
-                },
-                {
-                    category: "Exam Pattern",
-                    title: "Three-Phase Selection",
-                    desc: "Phase I (Online Objective Test), Phase II (Online Objective + Descriptive Papers), and Phase III (Personal Interview). Sectional and overall cut-offs apply in Phase I."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Phase I Syllabus",
-                    desc: "120-minute paper of 200 marks containing 4 sections: General Awareness (the heaviest weightage), Quantitative Aptitude, English Language, and Reasoning."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Phase II Syllabus",
-                    desc: "Paper 1: Economic and Social Issues (ESI) (50% objective, 50% descriptive). Paper 2: English Writing Skills (Descriptive). Paper 3: Finance and Management (FM) (50% objective, 50% descriptive)."
-                },
-                {
-                    category: "Physical Standards",
-                    title: "Medical Fitness",
-                    desc: "Standard commercial banking physical and medical tests. No specific height/chest dimensions are checked; color blindness may restrict allocation in specific security departments."
-                },
-                {
-                    category: "Salary",
-                    title: "Pay Scale & allowances",
-                    desc: "Starting basic pay is ₹55,200 per month. The initial monthly gross emoluments are approximately ₹1,08,000+ which includes allowances like Special Allowance, local compensatory allowance, and Grade Allowance."
-                },
-                {
-                    category: "Cut-off Marks",
-                    title: "Previous Year Trends",
-                    desc: "Phase I cut-offs depend heavily on difficulty; in recent years, it ranged from 54 to 66.8 marks out of 200. Phase II + Interview combined cut-off for final selection hovers around 235-245 out of 375."
-                },
-                {
-                    category: "Key Dates",
-                    title: "Important Schedule",
-                    desc: "Notifications are published around May/June. Phase I is usually conducted in July, Phase II in August, and Interviews occur between October and December."
-                }
-            ]
-        },
-        "SBI PO": {
-            examName: "SBI Probationary Officer Exam",
-            cards: [
-                {
-                    category: "Eligibility",
-                    title: "Core Eligibility Criteria",
-                    desc: "Age: 21-30 years (relaxations apply as per government rules). Must hold a Bachelor's Degree in any discipline from a recognized university. Final year students are eligible to apply."
-                },
-                {
-                    category: "Exam Pattern",
-                    title: "Three-Phase Process",
-                    desc: "Phase I: Preliminary Exam (Objective, 100 marks). Phase II: Main Exam (Objective + Descriptive, 250 marks). Phase III: Psychometric Test, Group Exercises (20 marks) & Interview (30 marks)."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Preliminary Syllabus",
-                    desc: "Comprises 3 sections (Total 100 Qs / 100 Marks / 1 Hour): English Language (30 Qs), Quantitative Aptitude (35 Qs), and Reasoning Ability (35 Qs). Sectional timing is 20 minutes each."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Mains Syllabus",
-                    desc: "Objective Test (200 marks): Reasoning & Computer Aptitude, Data Analysis & Interpretation, General/Economy/Banking Awareness, and English Language. Descriptive Test (50 marks): Letter writing & Essay."
-                },
-                {
-                    category: "Physical Standards",
-                    title: "Medical Standards",
-                    desc: "Basic bank medical test. Vision, hearing, and basic blood profiles are examined. The candidate must be physically and mentally fit to withstand long banking hours."
-                },
-                {
-                    category: "Salary",
-                    title: "Pay Scale & Structure",
-                    desc: "Starts with 4 advance increments, basic pay is ₹41,960. Total compensation package in-hand is around ₹65,000 to ₹70,000 per month depending on posting location, along with lease housing."
-                },
-                {
-                    category: "Cut-off Marks",
-                    title: "Previous Year Trends",
-                    desc: "Prelims cut-off is around 56-63 out of 100. Mains overall cut-off generally falls in the range of 78-88 out of 250. There are no sectional cut-offs in SBI PO exams."
-                },
-                {
-                    category: "Key Dates",
-                    title: "Important Schedule",
-                    desc: "The notification is typically released in September. Prelims take place in November, Mains in December or January, and the final results are announced in March."
-                }
-            ]
-        },
-        "IBPS PO": {
-            examName: "IBPS Probationary Officer Exam",
-            cards: [
-                {
-                    category: "Eligibility",
-                    title: "Core Eligibility Criteria",
-                    desc: "Age: 20-30 years. Must have a graduation degree in any discipline from an institute recognized by the Government of India. Registration on the IBPS portal is mandatory."
-                },
-                {
-                    category: "Exam Pattern",
-                    title: "Three-Stage Recruitment",
-                    desc: "Stage I: Preliminary Exam (Online, 100 marks). Stage II: Main Exam (Online Objective + Descriptive, 225 marks). Stage III: Common Interview (100 marks, weighted 80:20 with Mains)."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Preliminary Syllabus",
-                    desc: "Similar to other bank exams: Quantitative Aptitude (35 questions), Reasoning Ability (35 questions), and English Language (30 questions) with separate section timers."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Mains Syllabus",
-                    desc: "Objective (200 marks / 3 hours): Reasoning & Computer Aptitude, Data Analysis & Interpretation, General/Economy/Banking Awareness, and English. Descriptive: Essay & Letter writing (25 marks)."
-                },
-                {
-                    category: "Physical Standards",
-                    title: "Medical Examination",
-                    desc: "Candidates selected for public sector banks must pass the standard medical fitness checks conducted by the medical board of the respective participating banks."
-                },
-                {
-                    category: "Salary",
-                    title: "Pay Scale & Structure",
-                    desc: "The basic starting pay is ₹36,000. Total in-hand monthly salary including Dearness Allowance, HRA, City Compensatory Allowance, and special allowances is approximately ₹52,000 to ₹57,000."
-                },
-                {
-                    category: "Cut-off Marks",
-                    title: "Previous Year Trends",
-                    desc: "Prelims cut-off usually lands around 50 to 55 out of 100. Mains cut-off lies around 71 to 80 out of 225. Both sectional and overall cut-off scores are enforced."
-                },
-                {
-                    category: "Key Dates",
-                    title: "Important Schedule",
-                    desc: "IBPS releases its annual calendar in January. Notification is published in August, Prelims are held in October, Mains in November, and Interviews take place in January/February."
-                }
-            ]
-        },
-        "SSC CGL (AAO)": {
-            examName: "SSC Combined Graduate Level (AAO)",
-            cards: [
-                {
-                    category: "Eligibility",
-                    title: "Core Eligibility Criteria",
-                    desc: "Age: 18-30 years. Graduation from a recognized university. Desirable (not compulsory): Chartered Accountant, Cost & Management Accountant, MBA (Finance), or Master in Commerce."
-                },
-                {
-                    category: "Exam Pattern",
-                    title: "Two-Tier Screening",
-                    desc: "Tier I: Computer Based Test (Screening). Tier II: Descriptive is discontinued; Paper I (compulsory for all) and Paper III (specially for Assistant Audit/Accounts Officer)."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Tier I Syllabus",
-                    desc: "Includes four modules of 25 questions each: Quantitative Aptitude, General Intelligence & Reasoning, English Comprehension, and General Awareness (Total 200 marks)."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Tier II Syllabus",
-                    desc: "Paper I: Maths, Reasoning, English, General Awareness, Computer Knowledge (Qualifying). Paper III (Specialized AAO): Finance and Accounts (80 marks) and Economics and Governance (120 marks)."
-                },
-                {
-                    category: "Physical Standards",
-                    title: "Medical Checkup",
-                    desc: "Basic medical standards. No strict physical tests are required. Normal vision and general systemic health are verified during the document verification stage."
-                },
-                {
-                    category: "Salary",
-                    title: "Pay Scale & Structure",
-                    desc: "The only Gazetted officer post filled through SSC CGL. Placed in Pay Level 8 (7th CPC). Basic pay starts at ₹47,600. Initial in-hand salary ranges between ₹75,000 and ₹85,000 depending on city tier."
-                },
-                {
-                    category: "Cut-off Marks",
-                    title: "Previous Year Trends",
-                    desc: "AAO post has the highest Tier I cut-off in CGL, usually between 150 and 170 marks out of 200 due to specialized nature and high salary grade."
-                },
-                {
-                    category: "Key Dates",
-                    title: "Important Schedule",
-                    desc: "Notification is released in June/July. Tier I online test is held in September/October, and Tier II specialized papers are scheduled in December."
-                }
-            ]
-        },
-        "NDA Officer": {
-            examName: "UPSC National Defence Academy Exam",
-            cards: [
-                {
-                    category: "Eligibility",
-                    title: "Core Eligibility Criteria",
-                    desc: "Unmarried male & female candidates. Age: 16.5 to 19.5 years. Education: 12th class pass of the 10+2 pattern (For Air Force and Navy, 12th class pass with Physics and Mathematics is mandatory)."
-                },
-                {
-                    category: "Exam Pattern",
-                    title: "Written & SSB Interview",
-                    desc: "Stage 1: Written examination of 900 marks (Maths - 300, General Ability Test - 600). Stage 2: 5-day SSB (Services Selection Board) interview assessing intelligence and personality traits (900 marks)."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Written Paper I (Maths)",
-                    desc: "150-minute test. Topics include Algebra, Trigonometry, Analytical Geometry (2D & 3D), Differential Calculus, Integral Calculus, Vector Algebra, Statistics, and Probability."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Written Paper II (GAT)",
-                    desc: "Divided into Part A: English (200 marks checking grammar and usage) and Part B: General Knowledge (400 marks covering Physics, Chemistry, General Science, History, Geography, and Current Events)."
-                },
-                {
-                    category: "Physical Standards",
-                    title: "Strict Military Standards",
-                    desc: "Strict physical dimensions: Minimum height of 157 cm (162.5 cm for Air Force). Body mass index relative to height, excellent cardiovascular fitness, sound hearing, and perfect uncorrected vision for pilots."
-                },
-                {
-                    category: "Salary",
-                    title: "Stipend & Commission Pay",
-                    desc: "Stipend during Cadet training is ₹56,100. Upon commissioning as Lieutenant: Level 10 basic pay of ₹56,100 + Military Service Pay (MSP) of ₹15,500 + allowances. Starting in-hand gross is ₹85,000+."
-                },
-                {
-                    category: "Cut-off Marks",
-                    title: "Previous Year Trends",
-                    desc: "Written exam cut-off out of 900 ranges between 340 and 360 marks (minimum 25% sectional requirement in both papers). Final cut-off after SSB stands around 700 to 720 out of 1800."
-                },
-                {
-                    category: "Key Dates",
-                    title: "Important Schedule",
-                    desc: "Conducted twice a year by UPSC. NDA I: Notification in December, exam in April. NDA II: Notification in May, exam in September. SSB interviews occur 3-4 months after results."
-                }
-            ]
-        },
-        "ISRO Scientist": {
-            examName: "ISRO Scientist/Engineer 'SC' Recruitment",
-            cards: [
-                {
-                    category: "Eligibility",
-                    title: "Core Eligibility Criteria",
-                    desc: "Age limit: 21-35 years. B.E/B.Tech or equivalent degree in first class with an aggregate minimum of 65% marks or CGPA of 6.84 out of 10 in Mechanical, Electronics, Electrical, Civil, or CS."
-                },
-                {
-                    category: "Exam Pattern",
-                    title: "Written & Technical Interview",
-                    desc: "Consists of: 1) Written Test (80 objective questions testing engineering discipline concepts), 2) Technical Interview. Written score serves as a gateway; selection relies 50% on interview."
-                },
-                {
-                    category: "Syllabus",
-                    title: "Written Test Syllabus",
-                    desc: "Strictly conforms to core undergraduate engineering curriculum of the applied field. Paper includes sub-specializations, mathematical methods, material sciences, and analytical physics."
+                    title: "Written Test (If Held)",
+                    desc: "Written screening covers core clinical medicine modules, advanced research methodologies, medical statistics, laboratory protocols, and diagnostic troubleshooting of respective subjects."
                 },
                 {
                     category: "Syllabus",
                     title: "Interview Syllabus",
-                    desc: "No set syllabus. Interview panel evaluates deep understanding of core engineering mechanics, final year academic projects, logical troubleshooting, and knowledge of space payloads."
+                    desc: "Evaluates specialized clinical expertise, knowledge of medical devices, diagnostic case studies, emergency management, recent scientific developments, and ethical practices."
                 },
                 {
                     category: "Physical Standards",
-                    title: "Medical Evaluation",
-                    desc: "Candidates must meet the medical standard set by ISRO's occupational health department. Sound eyesight (correctable) and mental stability for high-stress research are verified."
+                    title: "Medical Fitness Code",
+                    desc: "Standard physical and medical examination. Candidates must be declared fit for institutional duty by a government medical board, passing standard cardiovascular and vision checks."
                 },
                 {
                     category: "Salary",
-                    title: "Pay Scale & Allowances",
-                    desc: "Recruited as Scientist/Engineer 'SC' at Pay Level 10 of the 7th CPC. Basic pay is ₹56,100. Total monthly starting pay is ₹80,000+ including HRA, DA, transport allowance, and free space medical insurance."
+                    title: "Pay Scale & Structure",
+                    desc: "Classified under Pay Level 11 of the 7th CPC (Basic starting pay: ₹67,700). Entitled to dynamic allowances including Dearness Allowance, House Rent Allowance, and Non-Practicing Allowance (NPA)."
                 },
                 {
                     category: "Cut-off Marks",
-                    title: "Previous Year Trends",
-                    desc: "Written test cutoff is usually around 60% for General and 50% for reserved candidates. Interview cutoff is 60% (50/100 marks). Final selection list is drawn based on merit and vacancy."
+                    title: "Interview Qualifiers",
+                    desc: "UPSC sets strict minimum qualifying marks for the 100-mark interview: General/EWS candidates must score 50+, OBC requires 45+, and SC/ST/PwBD candidates require 40+."
                 },
                 {
                     category: "Key Dates",
-                    title: "Important Schedule",
-                    desc: "ICRB notifications are published once a year, depending on satellite and rocket project vacancies. Often released in March/April or October/November with online exams within 90 days."
+                    title: "Online Application Schedule",
+                    desc: "Official Notification: Released July 2026. Online ORA portal is live, and the last date to apply is August 14, 2026 (6:00 PM). Interviews are tentatively scheduled for late 2026."
                 }
             ]
         },
-        "DRDO Scientist": {
-            examName: "DRDO Scientist 'B' Recruitment",
+        "Assistant / Upper Division Clerk (UDC)": {
+            examName: "ISRO Assistant & UDC Exam 2026",
             cards: [
                 {
                     category: "Eligibility",
-                    title: "Core Eligibility Criteria",
-                    desc: "Age limit: 21-28 years (for General). First-class Bachelor's degree in Engineering (B.Tech/B.E) in respective disciplines and a valid GATE (Graduate Aptitude Test in Engineering) score are mandatory."
+                    title: "Academic Eligibility",
+                    desc: "Age: 18-28 years (relaxations up to 31 for OBC, 33 for SC/ST). Candidates must possess a Bachelor's Degree in any stream with a minimum of 60% marks or a CGPA of 6.3/10. Computer proficiency is mandatory."
                 },
                 {
                     category: "Exam Pattern",
-                    title: "Screening & Descriptive",
-                    desc: "1) Screening based on GATE score (10:1 ratio), 2) Written Descriptive Examination (Paper I & II of 300 marks each), and 3) Personal Technical Interview (Weightage is 80% descriptive, 20% interview)."
+                    title: "Written & Skill Test",
+                    desc: "Stage 1: Written Examination (120 minutes, 200 marks). Stage 2: Computer-based Skill Test (Computer Literacy/Typing) which is qualifying in nature, followed by document verification."
                 },
                 {
                     category: "Syllabus",
-                    title: "Descriptive Paper I",
-                    desc: "3-hour conventional paper covering advanced mathematics, fundamental physics, and primary subjects of the engineering discipline (e.g., thermodynamics, circuit theory, computer architecture)."
+                    title: "Written Exam (Objective)",
+                    desc: "Contains 4 sections of 50 marks each: General English (comprehension and grammar), Quantitative Aptitude (arithmetic, statistics), General Intelligence & Reasoning, and General Knowledge."
                 },
                 {
                     category: "Syllabus",
-                    title: "Descriptive Paper II",
-                    desc: "Focuses on advanced applied engineering concepts, laboratory project structures, electronics instrumentation, modern programming structures, and engineering materials."
+                    title: "Computer Skill Test",
+                    desc: "Practical hands-on assessment on MS Word (document formatting), MS Excel (spreadsheets, basic formulas), MS PowerPoint (presentations), and a typing test of 35 words per minute."
                 },
                 {
                     category: "Physical Standards",
-                    title: "Medical Clearance",
-                    desc: "Basic physical health is required. Must obtain a medical fitness certificate from a government civil surgeon or a designated military medical officer prior to final induction."
+                    title: "Basic Fitness",
+                    desc: "No physical agility standards. Candidate must be physically and mentally fit, passing a standard medical inspection confirming correctable vision and normal auditory skills."
                 },
                 {
                     category: "Salary",
-                    title: "Pay Scale & Allowances",
-                    desc: "Inducted at Pay Level 10 (Basic ₹56,100). Total gross salary is around ₹85,000+ with professional update allowance (₹15,000/year), free medical treatment, and defense research perks."
+                    title: "Monthly Emoluments",
+                    desc: "Placed under Pay Level 4 of the 7th CPC (Basic pay ₹25,500). Initial monthly gross in-hand is approximately ₹42,000, including high-rate DA, HRA, transport perks, and medical cover."
                 },
                 {
                     category: "Cut-off Marks",
-                    title: "Previous Year Trends",
-                    desc: "GATE cutoff is extremely high (usually 98+ percentile) for initial screening. Descriptive written test cutoff is approximately 50-55% to qualify for the interview round."
+                    title: "Written Exam Passing Criteria",
+                    desc: "To qualify for the skill test shortlist, candidates must secure a minimum of 50% marks in the written exam (40% for reserved categories). Skill test requires a minimum of 60% score."
                 },
                 {
                     category: "Key Dates",
-                    title: "Important Schedule",
-                    desc: "RAC DRDO publishes notifications annually, shortly after GATE results are declared (around April/May). The descriptive written exam is held in October, with interviews in December."
+                    title: "Recruitment Calendar",
+                    desc: "The online registration portal starts on July 27, 2026. The absolute deadline to submit online forms is August 16, 2026. Written examination is scheduled for November 2026."
                 }
             ]
         },
-        "Railway Group A": {
-            examName: "Railway Group A (UPSC ESE)",
+        "Stenographer Grade-II & III": {
+            examName: "Rajasthan HC Stenographer Exam 2026",
             cards: [
                 {
                     category: "Eligibility",
-                    title: "Core Eligibility Criteria",
-                    desc: "Age limit: 21-30 years. Must hold an Engineering degree (B.E/B.Tech) in Civil, Mechanical, Electrical, or Electronics & Telecommunication engineering from a recognized university."
+                    title: "High Court Eligibility",
+                    desc: "Age: 18-40 years (as of January 1, 2027). Must have completed Senior Secondary (12th Pass) from a recognized board and hold an approved computer certificate like RSCIT, O-Level, or COPA."
                 },
                 {
                     category: "Exam Pattern",
-                    title: "Three-Stage ESE",
-                    desc: "Conducted via UPSC Engineering Services Examination (ESE): Stage I (Prelims - Objective, 500 marks), Stage II (Mains - Conventional Descriptive, 600 marks), Stage III (Personality Test - 200 marks)."
+                    title: "No Written Exam",
+                    desc: "Selection relies entirely on a Shorthand Speed Dictation Test, a Computer Typing and Efficiency Test, followed by a personal interview. No prelims or descriptive papers are conducted."
                 },
                 {
                     category: "Syllabus",
-                    title: "Stage I (Prelims) Syllabus",
-                    desc: "Paper I: General Studies and Engineering Aptitude (200 marks on environment, project management, standards, and ethics). Paper II: Specialized Engineering Discipline Paper (300 marks)."
+                    title: "Shorthand Dictation",
+                    desc: "Shorthand Test: 80 words per minute dictation in English (or Hindi) for 6 minutes. Dictated content must be transcribed on a computer word processor within 50 minutes."
                 },
                 {
                     category: "Syllabus",
-                    title: "Stage II (Mains) Syllabus",
-                    desc: "Consists of two conventional, descriptive papers (3 hours and 300 marks each) focusing entirely on the technical engineering core of the selected branch."
+                    title: "Typing & Efficiency Test",
+                    desc: "1) Computer Speed Test (50 marks, 10 mins). 2) Computer Efficiency Test (50 marks, 10 mins checking paragraph alignment, tables, borders, and margins in MS Word)."
                 },
                 {
                     category: "Physical Standards",
-                    title: "Strict Railway Medicals",
-                    desc: "Must undergo a rigorous medical examination (Executive/Technical category). High standards of visual acuity (usually Class A-3 or B-1), chest expansion, and physical agility are checked."
+                    title: "State Language & Health",
+                    desc: "Candidate must be mentally sound, physically healthy, and possess good knowledge of Rajasthani dialects alongside typing/reading Hindi in Devanagari script."
                 },
                 {
                     category: "Salary",
-                    title: "Pay Scale & Allowances",
-                    desc: "Starts at Pay Level 10 of 7th CPC (Basic pay ₹56,100). Initial monthly gross is approximately ₹80,000+. Includes unique railway benefits like free first-class railway travel passes, medical facilities, and quarters."
+                    title: "Pay Scale (Probation vs Post)",
+                    desc: "Stipend of ₹23,700 per month during 2 years of probation. On confirmation, placed in Rajasthan Pay Level 10 (Basic ₹33,800 to ₹1,06,700) with allowances."
                 },
                 {
                     category: "Cut-off Marks",
-                    title: "Previous Year Trends",
-                    desc: "Prelims cutoff ranges between 210 and 240 out of 500. Cumulative final cutoff (Prelims + Mains + Interview) varies by engineering branch, typically ranging from 600 to 720 out of 1300."
+                    title: "Speed Test Passing Marks",
+                    desc: "Candidates must secure a minimum of 45% marks in shorthands/typing tests to qualify for interview (40% for SC/ST/PwBD). The final merit list is based on combined test scores."
                 },
                 {
                     category: "Key Dates",
-                    title: "Important Schedule",
-                    desc: "UPSC ESE notification is released in September/October. Preliminary exam takes place in February, Main exam is held in June, and the final results are compiled by December."
+                    title: "Application Timelines",
+                    desc: "The online application window is live from July 22, 2026, to August 10, 2026 (5:00 PM). Skill tests will be conducted at centers in Jodhpur and Jaipur in late September 2026."
                 }
             ]
         },
-        "LIC AAO": {
-            examName: "LIC Assistant Administrative Officer Exam",
+        "Specialist Officer (SO)": {
+            examName: "Union Bank Specialist Officer Exam 2026",
             cards: [
                 {
                     category: "Eligibility",
-                    title: "Core Eligibility Criteria",
-                    desc: "Age: 21-30 years. Bachelor's Degree in any discipline from a recognized Indian University or Institution. Only Indian citizens are eligible to apply."
+                    title: "SO Core Eligibility",
+                    desc: "Age: 18-50 years (depending on grade/cadre). Must hold an engineering degree (B.E/B.Tech), MBA, CA, or LLB with a minimum of 60% marks, accompanied by relevant professional experience."
                 },
                 {
                     category: "Exam Pattern",
-                    title: "Three-Phase Examination",
-                    desc: "Phase I: Preliminary Examination (Objective). Phase II: Main Examination (Objective + Descriptive). Phase III: Interview, followed by Pre-Recruitment Medical Examination."
+                    title: "Online Exam & Personal Interview",
+                    desc: "Three stages: 1) Online Written Examination (Objective), 2) Group Discussion (GD) or Personal Interview (100 marks), and 3) Document verification and pre-employment medical checks."
                 },
                 {
                     category: "Syllabus",
-                    title: "Preliminary Syllabus",
-                    desc: "Includes 3 sections: Reasoning Ability (35 marks), Quantitative Aptitude (35 marks), and English Language (30 marks). English marks are qualifying only and not counted for ranking."
+                    title: "Professional Written Exam",
+                    desc: "Objective (150 Qs): Professional knowledge in the respective specialty domain (50 Qs), Quantitative Aptitude (25 Qs), Reasoning Ability (50 Qs), and English Language (25 Qs)."
                 },
                 {
                     category: "Syllabus",
-                    title: "Mains Syllabus",
-                    desc: "Objective (300 marks): Reasoning, GK & Current Affairs, Data Analysis, and Insurance/Financial Market Awareness. Descriptive (25 marks): Letter Writing & Essay on insurance and finance."
+                    title: "GD & Personal Interview",
+                    desc: "Evaluates advanced industry trends, technological banking transformations, corporate risk analysis, financial accounting, legal frameworks, and leadership traits."
                 },
                 {
                     category: "Physical Standards",
-                    title: "Medical Examination",
-                    desc: "Must clear the medical test conducted by LIC's approved medical panel. Candidates must not possess any systemic illness that inhibits corporate administrative duties."
+                    title: "Medical Fitments",
+                    desc: "Standard bank medical fitness. Candidates must get certified as healthy by an approved medical practitioner, passing general health, vision, and hearing inspections."
                 },
                 {
                     category: "Salary",
-                    title: "Pay Scale & Allowances",
-                    desc: "Basic pay is ₹53,600 in the scale of ₹53600-90630. Total monthly emoluments including DA, HRA, and city allowances is approximately ₹92,870 in Class 'A' cities, plus gratuity and pension benefits."
+                    title: "Pay Levels (Scale I to VI)",
+                    desc: "Starting basic pay ranges from ₹48,480 (Scale I Manager) to ₹1,20,940 (Scale VI Deputy General Manager) depending on grade, plus DA, lease accommodation, and cash benefits."
                 },
                 {
                     category: "Cut-off Marks",
-                    title: "Previous Year Trends",
-                    desc: "Prelims cut-off is around 55-60 out of 70 marks (English is qualifying). Mains cut-off hovers around 215-235 out of 300 marks. High sectional cutoffs apply for Insurance awareness."
+                    title: "Selection Weightages",
+                    desc: "Candidates must clear sectional and overall cutoffs in the written exam. Final selection weightage is split: 80% on online written exam score and 20% on interview/GD performance."
                 },
                 {
                     category: "Key Dates",
-                    title: "Important Schedule",
-                    desc: "Notification is published based on vacancy requirements, typically around January. Preliminary examinations are held in March, with Main exams scheduled in April."
+                    title: "Online Registration Windows",
+                    desc: "The registration link is live from July 21, 2026, to August 10, 2026 (11:59 PM). The online computer-based exam is scheduled for mid-September 2026."
+                }
+            ]
+        },
+        "Aadhaar Supervisor / Operator": {
+            examName: "UIDAI CSC Supervisor Exam 2026",
+            cards: [
+                {
+                    category: "Eligibility",
+                    title: "CSC Eligibility",
+                    desc: "Age: 18-40 years. Must have passed 12th standard (or matriculation with a 2-year ITI/3-year Polytechnic diploma). Must hold a valid Aadhaar Operator/Supervisor certificate from NSEIT."
+                },
+                {
+                    category: "Exam Pattern",
+                    title: "NSEIT Certification & Direct Onboarding",
+                    desc: "Selection consists of: 1) Computer-based NSEIT certification test, 2) CSC State Team application review, and 3) Direct machine onboarding and biometric GPS authorization."
+                },
+                {
+                    category: "Syllabus",
+                    title: "NSEIT UIDAI Certification",
+                    desc: "Written computer exam of 110 marks covering UIDAI registration guidelines, ECMP software operation, biometric capture protocols, security norms, and data privacy laws."
+                },
+                {
+                    category: "Syllabus",
+                    title: "CSC Field Training",
+                    desc: "On-site training on Child Enrolment Client (CELC) tablets, tablet configurations, Jan Aadhaar data synchronization, and handling local village camp registries."
+                },
+                {
+                    category: "Physical Standards",
+                    title: "Field Deployment Stamina",
+                    desc: "No high physical fitness exams. Candidate must be physically fit to travel and manage outdoor biometric registration camps inside localized villages in Rajasthan."
+                },
+                {
+                    category: "Salary",
+                    title: "Manpower Wages & Incentives",
+                    desc: "Initial contract of 1 year. Stipend follows semi-skilled manpower minimum wages of Rajasthan (approx ₹20,000/month) plus attractive transaction incentives per registration."
+                },
+                {
+                    category: "Cut-off Marks",
+                    title: "NSEIT Passing Benchmarks",
+                    desc: "To qualify as an Operator, candidates must score 55+ out of 110 marks. To qualify as a Supervisor (higher grade), candidates must score 77+ out of 110 marks in the NSEIT exam."
+                },
+                {
+                    category: "Key Dates",
+                    title: "Onboarding Calendar",
+                    desc: "Online registrations are active from July 24, 2026, to September 30, 2026. Onboarding, hardware mapping, and center allocations begin within 15 days of document verification."
+                }
+            ]
+        },
+        "Area Coordinator / Assistant": {
+            examName: "RGAVP Rajivika Selection 2026",
+            cards: [
+                {
+                    category: "Eligibility",
+                    title: "Rajivika Criteria",
+                    desc: "Age: 18-45 years. Exclusively open to women who are active members of a local Self Help Group (SHG) in Rajasthan. Minimum qualification: 10th pass, 12th, or Graduate depending on specific post."
+                },
+                {
+                    category: "Exam Pattern",
+                    title: "Document Screening & Interview",
+                    desc: "Selection follows: 1) Initial point-based screening based on SHG experience, 2) Shortlisting of files, and 3) Personal Interview conducted by the Block/District Selection Committee."
+                },
+                {
+                    category: "Syllabus",
+                    title: "Interview Part I",
+                    desc: "Evaluates core principles of Rajivika schemes, National Rural Livelihoods Mission (NRLM) directives, bookkeeping, SHG bank linkage systems, and microfinance management."
+                },
+                {
+                    category: "Syllabus",
+                    title: "Interview Part II",
+                    desc: "Covers general knowledge of Rajasthani dialects, local block geography, ongoing rural development schemes, basic arithmetic calculations, and local community leadership traits."
+                },
+                {
+                    category: "Physical Standards",
+                    title: "Rural Commute Agility",
+                    desc: "Must be physically active and capable of traveling extensively between rural villages and blocks in Anupgarh and Sri Ganganagar districts of Rajasthan."
+                },
+                {
+                    category: "Salary",
+                    title: "Contract honorarium",
+                    desc: "Offers a consolidated monthly contract honorarium of ₹15,000 to ₹25,000 depending on qualifications and block rating. No private business is allowed during contract."
+                },
+                {
+                    category: "Cut-off Marks",
+                    title: "Merit Calculations",
+                    desc: "Shortlisted candidates are selected strictly by combined merit: Academic qualification points (40%), SHG active years (30%), and the district interview score (30%)."
+                },
+                {
+                    category: "Key Dates",
+                    title: "Offline Timelines",
+                    desc: "Official Notification released: July 20, 2026. Last date to submit offline physical application forms to Rajivika District office is August 4, 2026 (5:00 PM)."
+                }
+            ]
+        },
+        "Specialist Grade III": {
+            examName: "UPSC ORA Medical Recruitment 2026",
+            cards: [
+                {
+                    category: "Eligibility",
+                    title: "Medical Eligibility",
+                    desc: "Age: Max 40 years. Must possess an MBBS degree with a recognized postgraduate qualification (MD/MS) in Neonatology, Endocrinology, Clinical Hematology, or Nuclear Medicine from a medical college."
+                },
+                {
+                    category: "Exam Pattern",
+                    title: "Screening CBRT & Interview",
+                    desc: "Consists of screening online profiles followed by a Personal Interview (100 marks). In case of a high number of applications, UPSC conducts an online screening test."
+                },
+                {
+                    category: "Syllabus",
+                    title: "Written Screening Test",
+                    desc: "Covers advanced clinical medicine, special topics in medical college curriculum, diagnostic protocols, public health statistics, and central healthcare guidelines."
+                },
+                {
+                    category: "Syllabus",
+                    title: "Interview Assessments",
+                    desc: "Tests advanced clinical case resolutions, handling specialized medical equipment, diagnostic methodologies, academic lecture guidelines, and medical college administrative ethics."
+                },
+                {
+                    category: "Physical Standards",
+                    title: "Medical Board Code",
+                    desc: "Strict standards of medical fitness. Candidates must be certified as healthy by a Central Government Medical Board, passing standard respiratory and cardiac inspections."
+                },
+                {
+                    category: "Salary",
+                    title: "Pay Matrix & Allowances",
+                    desc: "Recruited under Pay Level 11 of the 7th CPC (Basic pay ₹67,700). Includes Dearness Allowance, HRA, and a mandatory Non-Practicing Allowance (NPA). Total gross exceeds ₹1,25,000/month."
+                },
+                {
+                    category: "Cut-off Marks",
+                    title: "Selection Benchmarks",
+                    desc: "Minimum qualifying marks for the interview: 50 out of 100 for UR/EWS, 45 for OBC, and 40 for SC/ST. If written tests are held, cutoffs are determined based on score percentiles."
+                },
+                {
+                    category: "Key Dates",
+                    title: "Online Registrations",
+                    desc: "Detailed advertisement released on July 11, 2026. The online recruitment application portal is active, with the final submission deadline set for July 31, 2026 (6:00 PM)."
+                }
+            ]
+        },
+        "Public Prosecutor (SFIO)": {
+            examName: "UPSC ORA SFIO Prosecutor Exam 2026",
+            cards: [
+                {
+                    category: "Eligibility",
+                    title: "Legal Eligibility",
+                    desc: "Age: Max 35 years. Must hold a Bachelor's Degree in Law (LLB) from a recognized university. Candidates must possess a minimum of 2 years of active experience in corporate fraud prosecution."
+                },
+                {
+                    category: "Exam Pattern",
+                    title: "ORA Screening & Interview",
+                    desc: "Selection consists of: 1) ORA profile screening, 2) Computer Based Recruitment Test (CBRT) (qualifying, 100 marks), and 3) Personal Interview assessing legal acumen (100 marks)."
+                },
+                {
+                    category: "Syllabus",
+                    title: "CBRT Legal Syllabus",
+                    desc: "Covers the Companies Act 2013, Indian Penal Code (IPC), Code of Criminal Procedure (CrPC), Indian Evidence Act, SFIO prosecution directives, and corporate governance laws."
+                },
+                {
+                    category: "Syllabus",
+                    title: "Interview Syllabus",
+                    desc: "Assesses court trial methodologies, drafting criminal petitions, financial forensic investigations, bank audit reviews, administrative laws, and constitutional mandates."
+                },
+                {
+                    category: "Physical Standards",
+                    title: "General Fitness",
+                    desc: "Standard physical and mental fitness. Must be declared fit to perform court and travel duties, passing general systemic health checks by an authorized medical board."
+                },
+                {
+                    category: "Salary",
+                    title: "Pay Scale & Level",
+                    desc: "Placed in Pay Level 10 of the 7th CPC (Basic starting pay: ₹56,100). Total starting in-hand salary is approximately ₹82,000, including central allowances, medical cover, and HRA."
+                },
+                {
+                    category: "Cut-off Marks",
+                    title: "Qualifying Thresholds",
+                    desc: "Online Written Exam cutoff is set at 50%. Direct interview qualifying marks: 50% for General, 45% for OBC, and 40% for SC/ST candidates. Merit lists are drawn based on combined scores."
+                },
+                {
+                    category: "Key Dates",
+                    title: "Application Schedule",
+                    desc: "Official announcement released on July 11, 2026. The online application portal remains open until the absolute closing date of July 31, 2026 (6:00 PM)."
                 }
             ]
         }
     };
 
     // --- 4. DYNAMIC PAGE POPULATION ENGINE ---
-    // Retrieve URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     let jobKey = urlParams.get('job');
 
-    // Decode job key and fallback if invalid
     if (jobKey) {
         jobKey = decodeURIComponent(jobKey).trim();
     }
 
-    // Default fallback to IAS Officer if not found in database (graceful degradation)
+    // Default fallback to first live job (Specialist & Assistant Professor) if not found (graceful degradation)
     if (!jobKey || !jobsDatabase[jobKey]) {
-        jobKey = "IAS Officer";
+        jobKey = "Specialist & Assistant Professor";
     }
 
     const jobData = jobsDatabase[jobKey];

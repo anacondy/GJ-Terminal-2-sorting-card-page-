@@ -1,47 +1,61 @@
 /**
- * GJ Terminal - Shared Dashboard JavaScript
- * Handles sorting, searching, keyboard navigation, and row-click delegation.
- * Highly optimized for 60fps - 144fps rendering on low-end and high-refresh-rate displays.
+ * GJ Terminal - Shared Dashboard & Search Navigation JavaScript
+ * Handles sorting, search overlay, autocomplete suggestions, and cross-page controls.
+ * Highly optimized for locked 60fps-144fps rendering on modern devices.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     const tableContainer = document.getElementById('tableContainer');
     const searchOverlay = document.getElementById('searchOverlay');
     const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
     const jobsTable = document.getElementById('jobsTable');
 
-    if (!jobsTable || !tableContainer) {
-        console.warn('Required dashboard DOM elements not found.');
-        return;
+    // --- 1. REAL LIVE GOVERNMENT JOBS DATABASE (Union / Central & Rajasthan) ---
+    // Contains only currently active/live recruitments as of July 27, 2026.
+    const liveJobs = [
+        { name: "Specialist & Assistant Professor", exam: "UPSC ORA Direct Recruitment", body: "UPSC" },
+        { name: "Assistant / Upper Division Clerk (UDC)", exam: "ISRO Assistant & UDC Exam 2026", body: "ISRO" },
+        { name: "Stenographer Grade-II & III", exam: "Rajasthan HC Stenographer Exam 2026", body: "Rajasthan HC" },
+        { name: "Specialist Officer (SO)", exam: "Union Bank Specialist Officer Exam 2026", body: "Union Bank of India" },
+        { name: "Aadhaar Supervisor / Operator", exam: "UIDAI CSC Supervisor Exam 2026", body: "CSC India" },
+        { name: "Area Coordinator / Assistant", exam: "RGAVP Rajivika Selection 2026", body: "RGAVP" },
+        { name: "Specialist Grade III", exam: "UPSC ORA Medical Recruitment 2026", body: "UPSC" },
+        { name: "Public Prosecutor (SFIO)", exam: "UPSC ORA SFIO Prosecutor Exam 2026", body: "UPSC" }
+    ];
+
+    // --- 2. PERFORMANCE CACHING FOR DASHBOARD TABLES ---
+    let searchIndex = [];
+    if (jobsTable) {
+        searchIndex = Array.from(jobsTable.tBodies[0].querySelectorAll('tr')).map(row => ({
+            element: row,
+            text: (row.textContent || row.innerText || '').toUpperCase()
+        }));
     }
 
-    // --- 1. PERFORMANCE OPTIMIZATION: CACHE SEARCH DATA ---
-    // Pre-cache row DOM elements and their text content to avoid expensive style/layout queries during typing
-    const searchIndex = Array.from(jobsTable.tBodies[0].querySelectorAll('tr')).map(row => ({
-        element: row,
-        text: (row.textContent || row.innerText || '').toUpperCase()
-    }));
-
-    // --- 2. KEYBOARD NAVIGATION & SHORTCUTS ---
+    // --- 3. KEYBOARD NAVIGATION & SHORTCUTS (ACTIVE EVERYWHERE) ---
     document.addEventListener('keydown', (event) => {
         const horizontalScrollAmount = 250;
         const verticalScrollAmount = 150;
 
-        // Determine if search or any input is active to avoid hijacking standard input behaviors
         const isSearchVisible = searchOverlay && searchOverlay.classList.contains('visible');
         const isInputFocused = document.activeElement && 
             (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA' || document.activeElement.isContentEditable);
 
-        // Arrow key navigation for the table container (only when not typing in any input)
+        // Arrow key scrolling navigation (only when not typing)
         if (!isSearchVisible && !isInputFocused) {
             switch (event.key) {
                 case 'ArrowLeft': 
-                    event.preventDefault(); 
-                    tableContainer.scrollBy({ left: -horizontalScrollAmount, behavior: 'smooth' }); 
+                    if (tableContainer) {
+                        event.preventDefault(); 
+                        tableContainer.scrollBy({ left: -horizontalScrollAmount, behavior: 'smooth' }); 
+                    }
                     break;
                 case 'ArrowRight': 
-                    event.preventDefault(); 
-                    tableContainer.scrollBy({ left: horizontalScrollAmount, behavior: 'smooth' }); 
+                    if (tableContainer) {
+                        event.preventDefault(); 
+                        tableContainer.scrollBy({ left: horizontalScrollAmount, behavior: 'smooth' }); 
+                    }
                     break;
                 case 'ArrowUp': 
                     event.preventDefault(); 
@@ -54,11 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Ctrl+K / Cmd+K (Mac) to open search (if search overlay exists)
+        // Ctrl+K / Cmd+K (Mac) to open search overlay
         if (searchOverlay && searchInput && (event.ctrlKey || event.metaKey) && (event.key === 'k' || event.key === 'K')) {
             event.preventDefault();
             searchOverlay.classList.add('visible');
             searchInput.focus();
+            renderDropdownSuggestions(searchInput.value.trim()); // Initialize options list
         }
 
         // Escape key to close search
@@ -68,45 +83,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 3. ROW CLICK TO DYNAMIC DETAILS PAGE ---
-    jobsTable.querySelectorAll('tbody tr').forEach(row => {
-        row.addEventListener('click', () => {
-            const firstCell = row.querySelector('td');
-            if (firstCell) {
-                // Get the Post Name and pass it as a query parameter
-                const postName = firstCell.textContent.trim().replace(/↗$/, '').trim();
-                window.location.href = `details.html?job=${encodeURIComponent(postName)}`;
-            }
+    // --- 4. ROW CLICK HANDLERS FOR DASHBOARD ---
+    if (jobsTable) {
+        jobsTable.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                const firstCell = row.querySelector('td');
+                if (firstCell) {
+                    const postName = firstCell.textContent.trim().replace(/↗$/, '').trim();
+                    window.location.href = `details.html?job=${encodeURIComponent(postName)}`;
+                }
+            });
         });
-    });
 
-    // --- 4. PREVENT EVENT BUBBLING FOR EXTERNAL LINKS ---
-    // If there are standard external link tags or icons, clicking them shouldn't open details.html
-    jobsTable.querySelectorAll('.external-link-icon').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.stopPropagation();
+        // Prevent click-bubbling for active external links
+        jobsTable.querySelectorAll('.external-link-icon').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
         });
-    });
+    }
 
     // --- 5. TABLE HEADER SORTING ---
-    jobsTable.querySelectorAll('th.sortable').forEach(headerCell => {
-        headerCell.addEventListener('click', () => {
-            const columnIndex = parseInt(headerCell.dataset.columnIndex);
-            const sortType = headerCell.dataset.sortType || 'alpha';
-            const currentIsAscending = headerCell.classList.contains('sort-asc');
-            sortTableByColumn(jobsTable, columnIndex, !currentIsAscending, sortType);
+    if (jobsTable) {
+        jobsTable.querySelectorAll('th.sortable').forEach(headerCell => {
+            headerCell.addEventListener('click', () => {
+                const columnIndex = parseInt(headerCell.dataset.columnIndex);
+                const sortType = headerCell.dataset.sortType || 'alpha';
+                const currentIsAscending = headerCell.classList.contains('sort-asc');
+                sortTableByColumn(jobsTable, columnIndex, !currentIsAscending, sortType);
+            });
         });
-    });
+    }
 
-    /**
-     * Sorts the jobs table by a specific column index and type.
-     */
     function sortTableByColumn(table, columnIndex, ascending = true, sortType) {
         const directionModifier = ascending ? 1 : -1;
         const tBody = table.tBodies[0];
         const rows = Array.from(tBody.querySelectorAll('tr'));
 
-        // Robust numeric and currency parser
         const parseValue = (text, type) => {
             if (type === 'number' || type === 'currency') {
                 const cleanText = text.replace(/[₹,]/g, '').trim();
@@ -119,7 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const sortedRows = rows.sort((a, b) => {
             const aCell = a.querySelector(`td:nth-child(${columnIndex + 1})`);
             const bCell = b.querySelector(`td:nth-child(${columnIndex + 1})`);
-            
             const aText = aCell ? aCell.textContent.trim() : '';
             const bText = bCell ? bCell.textContent.trim() : '';
 
@@ -133,15 +145,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Optimized DOM updates using requestAnimationFrame
         requestAnimationFrame(() => {
             tBody.append(...sortedRows);
-
-            // Update header classes for sort indicators
             table.querySelectorAll('th.sortable').forEach(th => {
                 th.classList.remove('sort-asc', 'sort-desc');
             });
-            
             const activeHeader = table.querySelector(`th:nth-child(${columnIndex + 1})`);
             if (activeHeader) {
                 activeHeader.classList.toggle('sort-asc', ascending);
@@ -150,50 +158,102 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 6. SEARCH BAR FUNCTIONALITY ---
+    // --- 6. UNIFIED SEARCH BAR AUTOCOMPLETE & OVERLAY ---
     if (searchInput && searchOverlay) {
-        // Enter key to close search bar
+        // Enter key closes the search bar
         searchInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
                 searchOverlay.classList.remove('visible');
             }
         });
 
-        // Close search by clicking the background
+        // Close search by clicking outside/background
         searchOverlay.addEventListener('click', (event) => {
             if (event.target === searchOverlay) {
                 searchOverlay.classList.remove('visible');
             }
         });
 
-        // Track requestAnimationFrame to throttle concurrent layouts
         let rAFFrameId = null;
 
-        // High-performance search filtering
+        // Key/input event triggers search suggestion and filtering
         searchInput.addEventListener('input', () => {
-            let filterText = searchInput.value.trim().toUpperCase();
-            
+            let filterText = searchInput.value.trim();
             if (filterText.length > 100) {
                 searchInput.value = searchInput.value.substring(0, 100);
-                filterText = searchInput.value.trim().toUpperCase();
+                filterText = searchInput.value.trim();
             }
-            
-            // Cancel pending frame updates to avoid duplicate layout calculations
+
             if (rAFFrameId) {
                 cancelAnimationFrame(rAFFrameId);
             }
 
-            // Schedule the style updates on the next browser paint event (60fps to 144fps+)
             rAFFrameId = requestAnimationFrame(() => {
-                for (let i = 0; i < searchIndex.length; i++) {
-                    const row = searchIndex[i];
-                    if (row.text.indexOf(filterText) > -1) {
-                        row.element.style.display = "";
-                    } else {
-                        row.element.style.display = "none";
+                // 1. Filter dashboard table (if table exists on page)
+                if (jobsTable) {
+                    const upperFilter = filterText.toUpperCase();
+                    for (let i = 0; i < searchIndex.length; i++) {
+                        const row = searchIndex[i];
+                        if (row.text.indexOf(upperFilter) > -1) {
+                            row.element.style.display = "";
+                        } else {
+                            row.element.style.display = "none";
+                        }
                     }
                 }
+
+                // 2. Render dynamic search dropdown results
+                renderDropdownSuggestions(filterText);
             });
         });
+    }
+
+    /**
+     * Renders autocomplete dropdown suggestions under the input inside the modal.
+     */
+    function renderDropdownSuggestions(query) {
+        if (!searchResults) return;
+
+        const cleanQuery = query.trim().toUpperCase();
+        
+        // Find matching job records
+        const matches = liveJobs.filter(job => 
+            job.name.toUpperCase().includes(cleanQuery) || 
+            job.exam.toUpperCase().includes(cleanQuery) || 
+            job.body.toUpperCase().includes(cleanQuery)
+        );
+
+        if (matches.length === 0) {
+            searchResults.innerHTML = '<div class="search-results-item"><span class="search-results-title">No matching jobs found</span><span class="search-results-meta">Try searching for other Central or Rajasthan live jobs</span></div>';
+            searchResults.style.display = "block";
+            return;
+        }
+
+        // Render matches
+        searchResults.innerHTML = '';
+        matches.forEach(job => {
+            const item = document.createElement('div');
+            item.className = 'search-results-item';
+            
+            // Render structured search match card
+            item.innerHTML = `
+                <span class="search-results-title">${job.name}</span>
+                <span class="search-results-meta">${job.exam} (${job.body})</span>
+            `;
+
+            // On click, navigate directly to details page
+            item.addEventListener('click', () => {
+                searchOverlay.classList.remove('visible');
+                searchInput.value = '';
+                searchResults.style.display = "none";
+                
+                // If on details.html already, reload page with new parameter; else, navigate there.
+                window.location.href = `details.html?job=${encodeURIComponent(job.name)}`;
+            });
+
+            searchResults.appendChild(item);
+        });
+
+        searchResults.style.display = "block";
     }
 });

@@ -38,7 +38,7 @@ body {
     -webkit-overflow-scrolling: touch; /* Smooth kinetic scroll on iOS/Safari */
 }
 
-/* --- Custom Scrollbar Styling (Replaces hidden scrollbars for better accessibility/discoverability) --- */
+/* --- Custom Scrollbar Styling --- */
 .table-container::-webkit-scrollbar {
     height: 8px;
     width: 8px;
@@ -82,7 +82,7 @@ body {
 }
 .jobs-table tbody tr {
     transition: background-color 0.2s ease;
-    will-change: background-color; /* Promotes row to compositor for smooth hover */
+    will-change: background-color;
 }
 .jobs-table tbody tr:hover {
     background-color: rgba(255, 255, 255, 0.05);
@@ -148,7 +148,7 @@ body {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.25s ease;
-    will-change: opacity, visibility; /* Promotes overlay to GPU thread for 60fps+ transitions */
+    will-change: opacity, visibility;
 }
 .search-overlay.visible {
     opacity: 1;
@@ -164,7 +164,9 @@ body {
     box-sizing: border-box;
     transform: scale(0.95);
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform; /* Promotes modal scaling to GPU */
+    will-change: transform;
+    display: flex;
+    flex-direction: column;
 }
 #searchInput {
     width: 100%;
@@ -184,7 +186,49 @@ body {
     box-shadow: 0 0 25px rgba(255, 215, 0, 0.4), 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
-/* --- RESPONSIVE MEDIA OVERRIDES (Optimizations for Mobile, Tablet, and Scaling) --- */
+/* --- Search Autocomplete Results Container --- */
+.search-results {
+    background-color: #1a1a1c;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 10px;
+    max-height: 350px;
+    overflow-y: auto;
+    margin-top: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: none; /* Controlled dynamically by JS */
+}
+.search-results-item {
+    padding: 14px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background-color 0.2s ease, color 0.2s ease;
+    color: #e0e0e0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.search-results-item:hover {
+    background-color: rgba(255, 215, 0, 0.08);
+}
+.search-results-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    transition: color 0.2s ease;
+}
+.search-results-item:hover .search-results-title {
+    color: #FFD700;
+}
+.search-results-meta {
+    font-size: 0.8rem;
+    color: #aaa;
+}
+.search-results-item:last-child {
+    border-bottom: none;
+}
+
+/* --- RESPONSIVE MEDIA OVERRIDES --- */
 
 /* Tablet & Smaller Screens */
 @media (max-width: 992px) {
@@ -200,7 +244,7 @@ body {
 @media (max-width: 768px) {
     body {
         padding: 1rem 1rem;
-        background-size: 15px 15px; /* Slightly tighter grid on mobile */
+        background-size: 15px 15px;
     }
     .main-header {
         margin-bottom: 1.5rem;
@@ -216,11 +260,9 @@ body {
         padding: 12px 10px;
         font-size: 0.85rem;
     }
-    /* Mobile-specific scrollbar adjustments */
     .table-container::-webkit-scrollbar {
         height: 6px;
     }
-    /* Highlight mobile scrolling indicator */
     .table-container {
         box-shadow: inset -10px 0 10px -10px rgba(255, 215, 0, 0.15);
     }
@@ -244,6 +286,6 @@ body {
 @media (min-width: 1920px) {
     body {
         max-width: 1600px;
-        margin: 0 auto; /* Center page layout on ultra-wide screens */
+        margin: 0 auto;
     }
 }
