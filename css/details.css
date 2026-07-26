@@ -168,6 +168,23 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     display: none; /* Controlled dynamically by JS */
 }
+
+/* --- Custom Styled Search Results Scrollbar (DRY & Sleek) --- */
+.search-results::-webkit-scrollbar {
+    width: 6px;
+}
+.search-results::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.01);
+    border-radius: 10px;
+}
+.search-results::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.2); /* Soft golden thumb */
+    border-radius: 10px;
+}
+.search-results::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 215, 0, 0.4);
+}
+
 .search-results-item {
     padding: 14px 20px;
     cursor: pointer;
@@ -197,6 +214,12 @@ body {
 }
 .search-results-item:last-child {
     border-bottom: none;
+}
+
+/* --- Key Dates Card Highlights --- */
+.date-highlight {
+    color: #FFD700;
+    font-weight: 700;
 }
 
 /* --- RESPONSIVE MEDIA OVERRIDES (Optimizations for mobile and tablet displays) --- */

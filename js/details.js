@@ -70,8 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 {
                     category: "Key Dates",
-                    title: "Online Application Schedule",
-                    desc: "Official Notification: Released July 2026. Online ORA portal is live, and the last date to apply is August 14, 2026 (6:00 PM). Interviews are tentatively scheduled for late 2026."
+                    title: "Important Schedule",
+                    desc: "<span class=\"date-highlight\">Starting</span> - 25th July, 2026<br><span class=\"date-highlight\">Closing</span> - 14th Aug, 2026<br><span class=\"date-highlight\">Exam, if date available</span> - To be announced"
                 }
             ]
         },
@@ -115,8 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 {
                     category: "Key Dates",
-                    title: "Recruitment Calendar",
-                    desc: "The online registration portal starts on July 27, 2026. The absolute deadline to submit online forms is August 16, 2026. Written examination is scheduled for November 2026."
+                    title: "Important Schedule",
+                    desc: "<span class=\"date-highlight\">Starting</span> - 27th July, 2026<br><span class=\"date-highlight\">Closing</span> - 16th Aug, 2026<br><span class=\"date-highlight\">Exam, if date available</span> - Nov, 2026"
                 }
             ]
         },
@@ -160,8 +160,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 {
                     category: "Key Dates",
-                    title: "Application Timelines",
-                    desc: "The online application window is live from July 22, 2026, to August 10, 2026 (5:00 PM). Skill tests will be conducted at centers in Jodhpur and Jaipur in late September 2026."
+                    title: "Important Schedule",
+                    desc: "<span class=\"date-highlight\">Starting</span> - 22nd July, 2026<br><span class=\"date-highlight\">Closing</span> - 10th Aug, 2026<br><span class=\"date-highlight\">Exam, if date available</span> - Late Sep, 2026"
                 }
             ]
         },
@@ -205,8 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 {
                     category: "Key Dates",
-                    title: "Online Registration Windows",
-                    desc: "The registration link is live from July 21, 2026, to August 10, 2026 (11:59 PM). The online computer-based exam is scheduled for mid-September 2026."
+                    title: "Important Schedule",
+                    desc: "<span class=\"date-highlight\">Starting</span> - 21st July, 2026<br><span class=\"date-highlight\">Closing</span> - 10th Aug, 2026<br><span class=\"date-highlight\">Exam, if date available</span> - Mid-Sep, 2026"
                 }
             ]
         },
@@ -250,8 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 {
                     category: "Key Dates",
-                    title: "Onboarding Calendar",
-                    desc: "Online registrations are active from July 24, 2026, to September 30, 2026. Onboarding, hardware mapping, and center allocations begin within 15 days of document verification."
+                    title: "Important Schedule",
+                    desc: "<span class=\"date-highlight\">Starting</span> - 24th July, 2026<br><span class=\"date-highlight\">Closing</span> - 30th Sep, 2026<br><span class=\"date-highlight\">Exam, if date available</span> - Immediately upon scheduling"
                 }
             ]
         },
@@ -295,98 +295,98 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 {
                     category: "Key Dates",
-                    title: "Offline Timelines",
-                    desc: "Official Notification released: July 20, 2026. Last date to submit offline physical application forms to Rajivika District office is August 4, 2026 (5:00 PM)."
+                    title: "Important Schedule",
+                    desc: "<span class=\"date-highlight\">Starting</span> - 20th July, 2026<br><span class=\"date-highlight\">Closing</span> - 04th Aug, 2026<br><span class=\"date-highlight\">Exam, if date available</span> - Aug/Sep, 2026"
                 }
             ]
         },
-        "Specialist Grade III": {
-            examName: "UPSC ORA Medical Recruitment 2026",
+        "Technician Grade-I & III": {
+            examName: "RRB Technician Recruitment 2026 (CEN 02/2026)",
             cards: [
                 {
                     category: "Eligibility",
-                    title: "Medical Eligibility",
-                    desc: "Age: Max 40 years. Must possess an MBBS degree with a recognized postgraduate qualification (MD/MS) in Neonatology, Endocrinology, Clinical Hematology, or Nuclear Medicine from a medical college."
+                    title: "Technician Eligibility Criteria",
+                    desc: "Grade I Signal: BE/B.Tech/B.Sc or Diploma in Engineering. Grade III: Class 10th Pass with valid ITI certificate in related trade, or Class 12th Pass with Physics and Mathematics. Age limit: 18-33 years."
                 },
                 {
                     category: "Exam Pattern",
-                    title: "Screening CBRT & Interview",
-                    desc: "Consists of screening online profiles followed by a Personal Interview (100 marks). In case of a high number of applications, UPSC conducts an online screening test."
+                    title: "Single-Stage Written Test",
+                    desc: "Direct selection based on a single-stage Computer Based Test (CBT) of 100 objective questions, followed by document verification (DV) and standard railway medical exams. No interview."
                 },
                 {
                     category: "Syllabus",
-                    title: "Written Screening Test",
-                    desc: "Covers advanced clinical medicine, special topics in medical college curriculum, diagnostic protocols, public health statistics, and central healthcare guidelines."
+                    title: "Grade I Signal CBT Pattern",
+                    desc: "Objective (100 Qs / 90 Mins): Basic Science and Engineering (35 Qs), Mathematics (20 Qs), Basics of Computers (20 Qs), General Intelligence & Reasoning (15 Qs), and General Awareness (10 Qs)."
                 },
                 {
                     category: "Syllabus",
-                    title: "Interview Assessments",
-                    desc: "Tests advanced clinical case resolutions, handling specialized medical equipment, diagnostic methodologies, academic lecture guidelines, and medical college administrative ethics."
+                    title: "Grade III CBT Pattern",
+                    desc: "Objective (100 Qs / 90 Mins): Mathematics (25 Qs), General Intelligence & Reasoning (25 Qs), General Science (40 Qs), and General Awareness (10 Qs). Negative marking of 1/3 for incorrect answers."
                 },
                 {
                     category: "Physical Standards",
-                    title: "Medical Board Code",
-                    desc: "Strict standards of medical fitness. Candidates must be certified as healthy by a Central Government Medical Board, passing standard respiratory and cardiac inspections."
+                    title: "Strict Railway Medical Code",
+                    desc: "Must clear medical classification for railway technical posts. Eye vision standards (A-3 or B-1) are extremely strict—normal color vision, field of vision, and night vision are checked."
                 },
                 {
                     category: "Salary",
-                    title: "Pay Matrix & Allowances",
-                    desc: "Recruited under Pay Level 11 of the 7th CPC (Basic pay ₹67,700). Includes Dearness Allowance, HRA, and a mandatory Non-Practicing Allowance (NPA). Total gross exceeds ₹1,25,000/month."
+                    title: "Pay scale & allowances",
+                    desc: "Grade I Signal: Level 5 of 7th CPC (Basic: ₹29,200). Grade III: Level 2 of 7th CPC (Basic: ₹19,900) plus allowances (such as Dearness Allowance, HRA, Transport, and special running allowance)."
                 },
                 {
                     category: "Cut-off Marks",
-                    title: "Selection Benchmarks",
-                    desc: "Minimum qualifying marks for the interview: 50 out of 100 for UR/EWS, 45 for OBC, and 40 for SC/ST. If written tests are held, cutoffs are determined based on score percentiles."
+                    title: "CBT Qualifying Percentiles",
+                    desc: "Minimum qualifying percentiles: General/EWS - 40%, OBC-NCL/SC - 30%, ST - 25%. Final service allocation depends strictly on CBT normalized merit scores."
                 },
                 {
                     category: "Key Dates",
-                    title: "Online Registrations",
-                    desc: "Detailed advertisement released on July 11, 2026. The online recruitment application portal is active, with the final submission deadline set for July 31, 2026 (6:00 PM)."
+                    title: "Important Schedule",
+                    desc: "<span class=\"date-highlight\">Starting</span> - 30th June, 2026<br><span class=\"date-highlight\">Closing</span> - 29th July, 2026<br><span class=\"date-highlight\">Exam, if date available</span> - CBT to be notified"
                 }
             ]
         },
-        "Public Prosecutor (SFIO)": {
-            examName: "UPSC ORA SFIO Prosecutor Exam 2026",
+        "Section Controller": {
+            examName: "RRB Section Controller Recruitment 2026 (CEN 03/2026)",
             cards: [
                 {
                     category: "Eligibility",
-                    title: "Legal Eligibility",
-                    desc: "Age: Max 35 years. Must hold a Bachelor's Degree in Law (LLB) from a recognized university. Candidates must possess a minimum of 2 years of active experience in corporate fraud prosecution."
+                    title: "Controller Eligibility Criteria",
+                    desc: "Age: 20-33 years. Must hold a Bachelor's Degree in any stream from a recognized university. Candidates must take a live horizontal photo with a contrasting background."
                 },
                 {
                     category: "Exam Pattern",
-                    title: "ORA Screening & Interview",
-                    desc: "Selection consists of: 1) ORA profile screening, 2) Computer Based Recruitment Test (CBRT) (qualifying, 100 marks), and 3) Personal Interview assessing legal acumen (100 marks)."
+                    title: "Two-Stage Assessment",
+                    desc: "Consists of: 1) Computer Based Test (CBT - 100 objective questions), 2) Computer Based Aptitude Test (CBAT - intelligence and reasoning batteries), and 3) Document Verification and medicals."
                 },
                 {
                     category: "Syllabus",
-                    title: "CBRT Legal Syllabus",
-                    desc: "Covers the Companies Act 2013, Indian Penal Code (IPC), Code of Criminal Procedure (CrPC), Indian Evidence Act, SFIO prosecution directives, and corporate governance laws."
+                    title: "Written Test (CBT)",
+                    desc: "Objective (100 Qs / 120 Mins): Analytical & Mathematical Capability (60 Qs), Logical Capability (20 Qs), and Mental Reasoning (20 Qs). Penalty of 1/3 mark for each wrong answer."
                 },
                 {
                     category: "Syllabus",
-                    title: "Interview Syllabus",
-                    desc: "Assesses court trial methodologies, drafting criminal petitions, financial forensic investigations, bank audit reviews, administrative laws, and constitutional mandates."
+                    title: "Aptitude Test (CBAT)",
+                    desc: "Comprises psychological test batteries checking situational judgment, spatial concentration, speed perception, and alertness. No negative marking in CBAT; minimum qualifying T-Score of 42 is required."
                 },
                 {
                     category: "Physical Standards",
-                    title: "General Fitness",
-                    desc: "Standard physical and mental fitness. Must be declared fit to perform court and travel duties, passing general systemic health checks by an authorized medical board."
+                    title: "Strict Railway medicals",
+                    desc: "Executive Category medical exam. Requires flawless eyesight, normal color perception, and physical stamina to handle intensive railway traffic controller operations."
                 },
                 {
                     category: "Salary",
-                    title: "Pay Scale & Level",
-                    desc: "Placed in Pay Level 10 of the 7th CPC (Basic starting pay: ₹56,100). Total starting in-hand salary is approximately ₹82,000, including central allowances, medical cover, and HRA."
+                    title: "Pay scale & Structure",
+                    desc: "Placed under Pay Level 6 of the 7th CPC. Starting basic pay is ₹35,400 per month, plus substantial running allowances, dearness allowances, medical benefits, and free rail passes."
                 },
                 {
                     category: "Cut-off Marks",
-                    title: "Qualifying Thresholds",
-                    desc: "Online Written Exam cutoff is set at 50%. Direct interview qualifying marks: 50% for General, 45% for OBC, and 40% for SC/ST candidates. Merit lists are drawn based on combined scores."
+                    title: "Final merit Weightage",
+                    desc: "CBT qualifies candidates for CBAT at an 8:1 ratio. The final selection merit list is compiled with 70% weightage given to CBT scores and 30% weightage given to CBAT aptitude scores."
                 },
                 {
                     category: "Key Dates",
-                    title: "Application Schedule",
-                    desc: "Official announcement released on July 11, 2026. The online application portal remains open until the absolute closing date of July 31, 2026 (6:00 PM)."
+                    title: "Important Schedule",
+                    desc: "<span class=\"date-highlight\">Starting</span> - 15th July, 2026<br><span class=\"date-highlight\">Closing</span> - 14th Aug, 2026<br><span class=\"date-highlight\">Exam, if date available</span> - CBT to be notified"
                 }
             ]
         }
@@ -427,7 +427,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (categorySpan) categorySpan.textContent = data.category;
             if (titleH3) titleH3.textContent = data.title;
-            if (descP) descP.textContent = data.desc;
+            
+            // Set innerHTML for Key Dates card (index 7) to parse highlight spans & line breaks
+            if (index === 7) {
+                if (descP) descP.innerHTML = data.desc;
+            } else {
+                if (descP) descP.textContent = data.desc;
+            }
         });
     }
 });

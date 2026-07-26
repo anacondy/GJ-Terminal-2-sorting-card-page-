@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: "Specialist Officer (SO)", exam: "Union Bank Specialist Officer Exam 2026", body: "Union Bank of India" },
         { name: "Aadhaar Supervisor / Operator", exam: "UIDAI CSC Supervisor Exam 2026", body: "CSC India" },
         { name: "Area Coordinator / Assistant", exam: "RGAVP Rajivika Selection 2026", body: "RGAVP" },
-        { name: "Specialist Grade III", exam: "UPSC ORA Medical Recruitment 2026", body: "UPSC" },
-        { name: "Public Prosecutor (SFIO)", exam: "UPSC ORA SFIO Prosecutor Exam 2026", body: "UPSC" }
+        { name: "Technician Grade-I & III", exam: "RRB Technician CEN 02/2026", body: "Railway Recruitment Board" },
+        { name: "Section Controller", exam: "RRB Section Controller CEN 03/2026", body: "Railway Recruitment Board" }
     ];
 
     // --- 2. PERFORMANCE CACHING FOR DASHBOARD TABLES ---
