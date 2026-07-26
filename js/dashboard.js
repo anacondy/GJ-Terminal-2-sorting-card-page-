@@ -1,6 +1,7 @@
 /**
  * GJ Terminal - Shared Dashboard JavaScript
  * Handles sorting, searching, keyboard navigation, and row-click delegation.
+ * Highly optimized for 60fps - 144fps rendering on low-end and high-refresh-rate displays.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,7 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // --- 1. KEYBOARD NAVIGATION & SHORTCUTS ---
+    // --- 1. PERFORMANCE OPTIMIZATION: CACHE SEARCH DATA ---
+    // Pre-cache row DOM elements and their text content to avoid expensive style/layout queries during typing
+    const searchIndex = Array.from(jobsTable.tBodies[0].querySelectorAll('tr')).map(row => ({
+        element: row,
+        text: (row.textContent || row.innerText || '').toUpperCase()
+    }));
+
+    // --- 2. KEYBOARD NAVIGATION & SHORTCUTS ---
     document.addEventListener('keydown', (event) => {
         const horizontalScrollAmount = 250;
         const verticalScrollAmount = 150;
@@ -60,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 2. ROW CLICK TO DYNAMIC DETAILS PAGE ---
+    // --- 3. ROW CLICK TO DYNAMIC DETAILS PAGE ---
     jobsTable.querySelectorAll('tbody tr').forEach(row => {
         row.addEventListener('click', () => {
             const firstCell = row.querySelector('td');
@@ -72,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 3. PREVENT EVENT BUBBLING FOR EXTERNAL LINKS ---
+    // --- 4. PREVENT EVENT BUBBLING FOR EXTERNAL LINKS ---
     // If there are standard external link tags or icons, clicking them shouldn't open details.html
     jobsTable.querySelectorAll('.external-link-icon').forEach(link => {
         link.addEventListener('click', (e) => {
@@ -80,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 4. TABLE HEADER SORTING ---
+    // --- 5. TABLE HEADER SORTING ---
     jobsTable.querySelectorAll('th.sortable').forEach(headerCell => {
         headerCell.addEventListener('click', () => {
             const columnIndex = parseInt(headerCell.dataset.columnIndex);
@@ -101,9 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Robust numeric and currency parser
         const parseValue = (text, type) => {
             if (type === 'number' || type === 'currency') {
-                // Remove currency symbols, commas and trim whitespace
                 const cleanText = text.replace(/[₹,]/g, '').trim();
-                // Match first valid numeric pattern (supports floats, decimals, signed numbers)
                 const numMatch = cleanText.match(/[-+]?\d*\.?\d+/);
                 return numMatch ? parseFloat(numMatch[0]) : 0;
             }
@@ -127,22 +133,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Optimized DOM manipulation: appending elements already in the document automatically repositions them
-        tBody.append(...sortedRows);
+        // Optimized DOM updates using requestAnimationFrame
+        requestAnimationFrame(() => {
+            tBody.append(...sortedRows);
 
-        // Update header classes for sort indicators
-        table.querySelectorAll('th.sortable').forEach(th => {
-            th.classList.remove('sort-asc', 'sort-desc');
+            // Update header classes for sort indicators
+            table.querySelectorAll('th.sortable').forEach(th => {
+                th.classList.remove('sort-asc', 'sort-desc');
+            });
+            
+            const activeHeader = table.querySelector(`th:nth-child(${columnIndex + 1})`);
+            if (activeHeader) {
+                activeHeader.classList.toggle('sort-asc', ascending);
+                activeHeader.classList.toggle('sort-desc', !ascending);
+            }
         });
-        
-        const activeHeader = table.querySelector(`th:nth-child(${columnIndex + 1})`);
-        if (activeHeader) {
-            activeHeader.classList.toggle('sort-asc', ascending);
-            activeHeader.classList.toggle('sort-desc', !ascending);
-        }
     }
 
-    // --- 5. SEARCH BAR FUNCTIONALITY ---
+    // --- 6. SEARCH BAR FUNCTIONALITY ---
     if (searchInput && searchOverlay) {
         // Enter key to close search bar
         searchInput.addEventListener('keydown', (event) => {
@@ -158,9 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Live filtering as the user types
+        // Track requestAnimationFrame to throttle concurrent layouts
+        let rAFFrameId = null;
+
+        // High-performance search filtering
         searchInput.addEventListener('input', () => {
-            // Sanitize input by trimming whitespace and limiting length
             let filterText = searchInput.value.trim().toUpperCase();
             
             if (filterText.length > 100) {
@@ -168,17 +178,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 filterText = searchInput.value.trim().toUpperCase();
             }
             
-            const tableRows = jobsTable.tBodies[0].getElementsByTagName('tr');
-            for (let i = 0; i < tableRows.length; i++) {
-                const row = tableRows[i];
-                const rowText = (row.textContent || row.innerText).toUpperCase();
-                
-                if (rowText.indexOf(filterText) > -1) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
-                }
+            // Cancel pending frame updates to avoid duplicate layout calculations
+            if (rAFFrameId) {
+                cancelAnimationFrame(rAFFrameId);
             }
+
+            // Schedule the style updates on the next browser paint event (60fps to 144fps+)
+            rAFFrameId = requestAnimationFrame(() => {
+                for (let i = 0; i < searchIndex.length; i++) {
+                    const row = searchIndex[i];
+                    if (row.text.indexOf(filterText) > -1) {
+                        row.element.style.display = "";
+                    } else {
+                        row.element.style.display = "none";
+                    }
+                }
+            });
         });
     }
 });
